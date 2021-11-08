@@ -31,7 +31,7 @@ enum class CardValue {
      * Returns one of: 2/3/4/5/6/7/8/9/10/J/Q/K/A
      */
     override fun toString() =
-        when(this) {
+        when (this) {
             TWO -> "2"
             THREE -> "3"
             FOUR -> "4"
@@ -58,8 +58,6 @@ enum class CardValue {
         }
 
     }
-
-
 
 
 }

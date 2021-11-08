@@ -15,7 +15,7 @@ enum class CardSuit {
      * provide a single character to represent this suit.
      * Returns one of: ♣/♠/♥/♦
      */
-    override fun toString() = when(this) {
+    override fun toString() = when (this) {
         CLUBS -> "♣"
         SPADES -> "♠"
         HEARTS -> "♥"
