@@ -4,15 +4,26 @@ import tools.aqua.bgw.util.Stack
 
 class DrawPile {
     val remainingCards: Stack<Card> = Stack()
-    fun add(element: Card) {
-        remainingCards.push(element)
-    }
 
+    /**
+     * Die Methode zieht die oberste Karte aus dem Ziehstapel
+     *
+     * @throws IllegalStateException wenn es kein Objekt im Stack gibt
+     * @return Das oberste Karte-Objekt im Stack
+     */
     fun draw(): Card {
-        return remainingCards.pop()
+        if (remainingCards.size == 0) {
+            throw IllegalStateException("There is no card to draw")
+        } else {
+            return remainingCards.pop()
+        }
     }
 
-    fun init() {
+    /**
+     * Die Methode fügt alle 32 Skat-Karten in den Ziehstapel hinzu.
+     * Dann wird der Ziehstapel gemischt, damit die Reihenfolge von Karten zufällig am Anfang jedes Spiels ist
+     */
+    init {
         var value: CardValue = CardValue.ACE
         var suit: CardSuit = CardSuit.DIAMONDS
         for (i in 1..4) {
@@ -62,5 +73,4 @@ class DrawPile {
         }
         remainingCards.shuffle()
     }
-
 }
