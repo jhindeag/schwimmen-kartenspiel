@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c0a9aa42-d036-41db-96c8-5d116c5ca421" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/default/Main.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/default/MainKt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/default/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/default/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/Card.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/Card.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardImageLoader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardImageLoader.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardImageLoaderKt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardSuit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardSuit.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardValue$Companion.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardValue.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/CardValue.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/DrawPile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/DrawPile.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/Game.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/Game.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/Player.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/Player.kt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/entity/index.source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/branchfc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/branchnc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/branchpc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/bundle.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/class.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/down.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/greenbar.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/group.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/method.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/package.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/prettify.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/prettify.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/redbar.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/report.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/report.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/session.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/sort.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/sort.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/source.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-resources/up.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/coverage/jacoco-sessions.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/test/css/base-style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/test/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/test/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/test/js/report.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../public/test/packages/entity.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../test/kotlin/entity/DrawPileTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../test/kotlin/entity/DrawPileTest.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectId" id="20ozD0nm2haBHu3WITWa5MgsByW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c0a9aa42-d036-41db-96c8-5d116c5ca421" name="Changes" comment="" />
+      <created>1636725604630</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1636725604630</updated>
+    </task>
+    <servers />
+  </component>
+</project>

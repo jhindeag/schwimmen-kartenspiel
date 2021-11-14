@@ -1,6 +1,6 @@
 package entity
 
-data class Player(val name: String, val hand: ArrayList<Card> = ArrayList<Card>(3)) {
+data class Player(val name: String, var hand: ArrayList<Card?> = ArrayList<Card?>(3)) {
     var points = 0
     var hasKnocked = false
 

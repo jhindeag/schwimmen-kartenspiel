@@ -4,7 +4,7 @@ class Game(var players:List<Player>) {
     var passCount = 0
     var currentPlayer: Player = players[0]
     val drawPile = DrawPile()
-    var placedCards = arrayOfNulls<Card>(3)
+    var placedCards = arrayListOf<Card?>(null, null, null)
     var ite = players.iterator()
 
     /**
