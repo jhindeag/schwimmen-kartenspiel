@@ -13,7 +13,7 @@ internal class GameServiceTest {
      */
     private fun setUpGame(): RootService {
         val rootService = RootService()
-        rootService.mainMenuService.startGame("ab", "cd", "ef", null)
+        rootService.mainMenuService.startGame("ab", "cd", null, "ef")
         return rootService
     }
 
