@@ -17,41 +17,11 @@ internal class GameTest {
         assertFailsWith<IllegalArgumentException> {
             val game = Game(
                 listOf(
-                    Player(
-                        "A", arrayListOf(
-                            Card(CardSuit.DIAMONDS, CardValue.EIGHT),
-                            Card(CardSuit.CLUBS, CardValue.JACK),
-                            Card(CardSuit.SPADES, CardValue.THREE)
-                        )
-                    ),
-                    Player(
-                        "B", arrayListOf(
-                            Card(CardSuit.DIAMONDS, CardValue.SEVEN),
-                            Card(CardSuit.CLUBS, CardValue.TEN),
-                            Card(CardSuit.SPADES, CardValue.TWO)
-                        )
-                    ),
-                    Player(
-                        "C", arrayListOf(
-                            Card(CardSuit.DIAMONDS, CardValue.SIX),
-                            Card(CardSuit.CLUBS, CardValue.NINE),
-                            Card(CardSuit.SPADES, CardValue.ACE)
-                        )
-                    ),
-                    Player(
-                        "D", arrayListOf(
-                            Card(CardSuit.DIAMONDS, CardValue.FIVE),
-                            Card(CardSuit.CLUBS, CardValue.EIGHT),
-                            Card(CardSuit.SPADES, CardValue.KING)
-                        )
-                    ),
-                    Player(
-                        "E", arrayListOf(
-                            Card(CardSuit.DIAMONDS, CardValue.FOUR),
-                            Card(CardSuit.CLUBS, CardValue.SEVEN),
-                            Card(CardSuit.SPADES, CardValue.QUEEN)
-                        )
-                    )
+                    Player("A"),
+                    Player("B"),
+                    Player("C"),
+                    Player("D"),
+                    Player("E")
                 )
             )
         }
@@ -66,13 +36,7 @@ internal class GameTest {
         assertFailsWith<IllegalArgumentException> {
             val game = Game(
                 listOf(
-                    Player(
-                        "A", arrayListOf(
-                            Card(CardSuit.DIAMONDS, CardValue.EIGHT),
-                            Card(CardSuit.CLUBS, CardValue.JACK),
-                            Card(CardSuit.SPADES, CardValue.THREE)
-                        )
-                    )
+                    Player("A")
                 )
             )
         }
@@ -86,27 +50,9 @@ internal class GameTest {
         // Test, ob es ein Game initialisieren kann
         val game = Game(
             listOf(
-                Player(
-                    "A", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.EIGHT),
-                        Card(CardSuit.CLUBS, CardValue.JACK),
-                        Card(CardSuit.SPADES, CardValue.THREE)
-                    )
-                ),
-                Player(
-                    "B", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.SEVEN),
-                        Card(CardSuit.CLUBS, CardValue.TEN),
-                        Card(CardSuit.SPADES, CardValue.TWO)
-                    )
-                ),
-                Player(
-                    "C", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.SIX),
-                        Card(CardSuit.CLUBS, CardValue.NINE),
-                        Card(CardSuit.SPADES, CardValue.ACE)
-                    )
-                )
+                Player("A"),
+                Player("B"),
+                Player("C")
             )
         )
         // Test, ob die Anzahl von Spielern gueltig ist
@@ -120,30 +66,12 @@ internal class GameTest {
         // Testdaten erzeugen
         val game = Game(
             listOf(
-                Player(
-                    "A", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.EIGHT),
-                        Card(CardSuit.CLUBS, CardValue.JACK),
-                        Card(CardSuit.SPADES, CardValue.THREE)
-                    )
-                ),
-                Player(
-                    "B", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.SEVEN),
-                        Card(CardSuit.CLUBS, CardValue.TEN),
-                        Card(CardSuit.SPADES, CardValue.TWO)
-                    )
-                ),
-                Player(
-                    "C", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.SIX),
-                        Card(CardSuit.CLUBS, CardValue.NINE),
-                        Card(CardSuit.SPADES, CardValue.ACE)
-                    )
-                )
+                Player("A"),
+                Player("B"),
+                Player("C")
             )
         )
-        var old = game.currentPlayer
+        val old = game.currentPlayer
         // Zu testende Methode aufrufen
         game.nextPlayer()
         // Test, ob es den aktuellen Spieler veraendert kann
@@ -157,30 +85,12 @@ internal class GameTest {
         // Testdaten erzeugen
         val game = Game(
             listOf(
-                Player(
-                    "A", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.EIGHT),
-                        Card(CardSuit.CLUBS, CardValue.JACK),
-                        Card(CardSuit.SPADES, CardValue.THREE)
-                    )
-                ),
-                Player(
-                    "B", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.SEVEN),
-                        Card(CardSuit.CLUBS, CardValue.TEN),
-                        Card(CardSuit.SPADES, CardValue.TWO)
-                    )
-                ),
-                Player(
-                    "C", arrayListOf(
-                        Card(CardSuit.DIAMONDS, CardValue.SIX),
-                        Card(CardSuit.CLUBS, CardValue.NINE),
-                        Card(CardSuit.SPADES, CardValue.ACE)
-                    )
-                )
+                Player("A"),
+                Player("B"),
+                Player("C")
             )
         )
-        var old = game.currentPlayer
+        val old = game.currentPlayer
         // Zu testende Methode aufrufen
         game.nextPlayer()
         game.nextPlayer()

@@ -2,38 +2,103 @@ package service
 
 import entity.Card
 
-class ActionService {
-    private val gameSer = MainMenuService().gameServ
+/***
+ * All four actions that the player can take in a
+ * player turn are defined here
+ */
+class ActionService(private val rootService: RootService) : AbstractRefreshingService() {
+
+    /***
+     * Passes the current turn, increase the passCount,
+     * then it will be checked, whether the end
+     * of the game is reached or the game continues
+     */
     fun pass() {
-        gameSer.currentGame.passCount++
-        if (gameSer.currentGame.passCount == gameSer.currentGame.players.size) {
-            if (gameSer.currentGame.drawPile.remainingCards.size >= 3) {
-                gameSer.resetPlacedCards()
-            } else {
-                gameSer.endGame()
+        val game = rootService.currentGame
+        checkNotNull(game)
+        game.passCount++
+        if (game.passCount == game.players.size) {
+            if (game.drawPile.remainingCards.size >= 3) {
+                rootService.gameService.resetPlacedCards()
+                onAllRefreshables { /*refreshAfterPlacedCardsChange()*/ }
             }
+        }
+        if (rootService.gameService.afterPlayerTurn()) {
+            rootService.gameService.endGame()
         }
     }
 
+    /***
+     * Trades one card in hand with one card on table,
+     * then it will be checked, whether the end
+     * of the game is reached or the game continues
+     *
+     * @param cardInHand: the card in hand to be traded
+     * @param cardOnTable: the card on table to be traded
+     */
     fun tradeOne(cardInHand: Card, cardOnTable: Card) {
+        val game = rootService.currentGame
+        checkNotNull(game)
         var handIndex = 0
         var tableIndex = 0
-        for (i in 0..3) {
-            if (cardInHand.toString() == gameSer.currentGame.currentPlayer.hand[i].toString()) {
+        //find the index of both card on table and card in hand
+        for (i in 0..2) {
+            if (cardInHand.toString() == game.currentPlayer.hand[i].toString()) {
                 handIndex = i
             }
-            if (cardOnTable.toString() == gameSer.currentGame.placedCards[i].toString()) {
+            if (cardOnTable.toString() == game.placedCards[i].toString()) {
                 tableIndex = i
             }
         }
-        gameSer.currentGame.currentPlayer.hand[handIndex] = gameSer.currentGame.placedCards[tableIndex]
+        //swap the two cards
+        game.currentPlayer.hand[handIndex] =
+            game.placedCards[tableIndex].also {
+                game.placedCards[tableIndex] =
+                    game.currentPlayer.hand[handIndex]
+            }
+        onAllRefreshables { /*
+            refreshAfterPlayerStateChange()
+            refreshAfterPlacedCardsChange()
+        */
+        }
+        if (rootService.gameService.afterPlayerTurn()){
+            rootService.gameService.endGame()
+        }
     }
 
+    /***
+     * Trades all cards in hand with all cards on table,
+     * then it will be checked, whether the end
+     * of the game is reached or the game continues
+     */
     fun takeAll() {
-        gameSer.currentGame.currentPlayer.hand = gameSer.currentGame.placedCards
+        val game = rootService.currentGame
+        checkNotNull(game)
+        game.currentPlayer.hand = game.placedCards.also {
+            game.placedCards = game.currentPlayer.hand
+        }
+        onAllRefreshables { /*
+            refreshAfterPlayerStateChange()
+            refreshAfterPlacedCardsChange()
+        */
+        }
+        if (rootService.gameService.afterPlayerTurn()){
+            rootService.gameService.endGame()
+        }
     }
 
+    /***
+     * Knocks, changes the status of the player and ends turn,
+     * then it will be checked, whether the end
+     * of the game is reached or the game continues
+     *
+     */
     fun knock() {
-        gameSer.currentGame.currentPlayer.hasKnocked = true
+        val game = rootService.currentGame
+        checkNotNull(game)
+        game.currentPlayer.hasKnocked = true
+        if (rootService.gameService.afterPlayerTurn()){
+            rootService.gameService.endGame()
+        }
     }
 }

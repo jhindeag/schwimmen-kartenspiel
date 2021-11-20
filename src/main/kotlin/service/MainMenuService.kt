@@ -3,47 +3,66 @@ package service
 import entity.Game
 import entity.Player
 import view.SopraApplication
+import kotlin.system.exitProcess
 
-class MainMenuService {
-    val gameServ = GameService()
+/***
+ * This class defines the logic for the
+ * actions on the main menu of the game
+ */
+class MainMenuService(private val rootService: RootService) : AbstractRefreshingService() {
+
+    /***
+     * Create a new game with the give names of the players
+     *
+     * @param p1 name of the player 1
+     * @param p2 name of the player 2
+     * @param p3 name of the player 3
+     * @param p4 name of the player 4
+     */
     fun startGame(p1: String, p2: String, p3: String?, p4: String?) {
+        var game: Game? = null
         if (p4 == null && p3 != null) {
-            gameServ.currentGame = Game(
+            game = Game(
                 listOf(
-                    Player(p1, arrayListOf(null, null, null)),
-                    Player(p2, arrayListOf(null, null, null)),
-                    Player(p3, arrayListOf(null, null, null))
+                    Player(p1),
+                    Player(p2),
+                    Player(p3)
                 )
             )
-        }
-        if (p4 != null && p3 == null) {
-            gameServ.currentGame = Game(
+        } else if (p4 != null && p3 == null) {
+            game = Game(
                 listOf(
-                    Player(p1, arrayListOf(null, null, null)),
-                    Player(p2, arrayListOf(null, null, null)),
-                    Player(p4, arrayListOf(null, null, null))
+                    Player(p1),
+                    Player(p2),
+                    Player(p4)
                 )
             )
         } else if (p3 == null && p4 == null) {
-            gameServ.currentGame = Game(
+            game = Game(
                 listOf(
-                    Player(p1, arrayListOf(null, null, null)),
-                    Player(p2, arrayListOf(null, null, null))
+                    Player(p1),
+                    Player(p2)
                 )
             )
         } else if (p3 != null && p4 != null) {
-            gameServ.currentGame = Game(
+            game = Game(
                 listOf(
-                    Player(p1, arrayListOf(null, null, null)),
-                    Player(p2, arrayListOf(null, null, null)),
-                    Player(p3, arrayListOf(null, null, null)),
-                    Player(p4, arrayListOf(null, null, null))
+                    Player(p1),
+                    Player(p2),
+                    Player(p3),
+                    Player(p4)
                 )
             )
         }
+        rootService.currentGame = game
+        onAllRefreshables { /*refreshAfterStartGame*/ }
     }
 
+    /***
+     * Closes the application
+     */
     fun quitGame() {
         SopraApplication().exit()
+        exitProcess(0)
     }
 }

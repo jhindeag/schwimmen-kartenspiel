@@ -1,6 +1,7 @@
 package entity
 
-data class Player(val name: String, var hand: ArrayList<Card?> = ArrayList<Card?>(3)) {
+data class Player(val name: String) {
+    var hand = ArrayList<Card?>(3)
     var points = 0
     var hasKnocked = false
 
@@ -20,6 +21,6 @@ data class Player(val name: String, var hand: ArrayList<Card?> = ArrayList<Card?
      * @return einen String mit Information von drei Karten
      */
     override fun toString(): String {
-        return hand[0].toString() + " " + hand[1].toString() + " " + hand[2].toString()
+        return this.name
     }
 }

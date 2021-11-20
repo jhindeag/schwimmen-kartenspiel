@@ -3,47 +3,67 @@
 import entity.Game
 import entity.Player
 import view.SopraApplication
+import kotlin.system.exitProcess
 
-<span class="nc" id="L7">class MainMenuService {</span>
+/***
+ * This class defines the logic for the
+ * actions on the main menu of the game
+ */
+<span class="fc" id="L12">class MainMenuService(private val rootService: RootService) : AbstractRefreshingService() {</span>
+
+    /***
+     * Create a new game with the give names of the players
+     *
+     * @param p1 name of the player 1
+     * @param p2 name of the player 2
+     * @param p3 name of the player 3
+     * @param p4 name of the player 4
+     */
     fun startGame(p1: String, p2: String, p3: String?, p4: String?) {
-<span class="nc bnc" id="L9" title="All 4 branches missed.">        if (p4 == null &amp;&amp; p3 != null) {</span>
-<span class="nc" id="L10">            GameService().currentGame = Game(</span>
-<span class="nc" id="L11">                listOf(</span>
-<span class="nc" id="L12">                    Player(p1, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L13">                    Player(p2, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L14">                    Player(p3, arrayListOf(null, null, null))</span>
+<span class="fc" id="L23">        var game: Game? = null</span>
+<span class="pc bpc" id="L24" title="2 of 4 branches missed.">        if (p4 == null &amp;&amp; p3 != null) {</span>
+<span class="fc" id="L25">            game = Game(</span>
+<span class="fc" id="L26">                listOf(</span>
+<span class="fc" id="L27">                    Player(p1),</span>
+<span class="fc" id="L28">                    Player(p2),</span>
+<span class="fc" id="L29">                    Player(p3)</span>
+                )
+            )
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        } else if (p4 != null &amp;&amp; p3 == null) {</span>
+<span class="nc" id="L33">            game = Game(</span>
+<span class="nc" id="L34">                listOf(</span>
+<span class="nc" id="L35">                    Player(p1),</span>
+<span class="nc" id="L36">                    Player(p2),</span>
+<span class="nc" id="L37">                    Player(p4)</span>
+                )
+            )
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        } else if (p3 == null &amp;&amp; p4 == null) {</span>
+<span class="nc" id="L41">            game = Game(</span>
+<span class="nc" id="L42">                listOf(</span>
+<span class="nc" id="L43">                    Player(p1),</span>
+<span class="nc" id="L44">                    Player(p2)</span>
+                )
+            )
+<span class="nc bnc" id="L47" title="All 4 branches missed.">        } else if (p3 != null &amp;&amp; p4 != null) {</span>
+<span class="nc" id="L48">            game = Game(</span>
+<span class="nc" id="L49">                listOf(</span>
+<span class="nc" id="L50">                    Player(p1),</span>
+<span class="nc" id="L51">                    Player(p2),</span>
+<span class="nc" id="L52">                    Player(p3),</span>
+<span class="nc" id="L53">                    Player(p4)</span>
                 )
             )
         }
-<span class="nc bnc" id="L18" title="All 4 branches missed.">        if (p4 != null &amp;&amp; p3 == null) {</span>
-<span class="nc" id="L19">            GameService().currentGame = Game(</span>
-<span class="nc" id="L20">                listOf(</span>
-<span class="nc" id="L21">                    Player(p1, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L22">                    Player(p2, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L23">                    Player(p4, arrayListOf(null, null, null))</span>
-                )
-            )
-<span class="nc bnc" id="L26" title="All 4 branches missed.">        } else if (p3 == null &amp;&amp; p4 == null) {</span>
-<span class="nc" id="L27">            GameService().currentGame = Game(</span>
-<span class="nc" id="L28">                listOf(</span>
-<span class="nc" id="L29">                    Player(p1, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L30">                    Player(p2, arrayListOf(null, null, null))</span>
-                )
-            )
-<span class="nc bnc" id="L33" title="All 4 branches missed.">        } else if (p3 != null &amp;&amp; p4 != null) {</span>
-<span class="nc" id="L34">            GameService().currentGame = Game(</span>
-<span class="nc" id="L35">                listOf(</span>
-<span class="nc" id="L36">                    Player(p1, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L37">                    Player(p2, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L38">                    Player(p3, arrayListOf(null, null, null)),</span>
-<span class="nc" id="L39">                    Player(p4, arrayListOf(null, null, null))</span>
-                )
-            )
-        }
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L57">        rootService.currentGame = game</span>
+<span class="pc" id="L58">        onAllRefreshables { /*refreshAfterStartGame*/ }</span>
+<span class="fc" id="L59">    }</span>
 
+    /***
+     * Closes the application
+     */
     fun quitGame() {
-<span class="nc" id="L46">        SopraApplication().exit()</span>
-<span class="nc" id="L47">    }</span>
+<span class="nc" id="L65">        SopraApplication().exit()</span>
+<span class="nc" id="L66">        exitProcess(0)</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
