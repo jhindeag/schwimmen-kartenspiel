@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Game.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">projekt1</a> &gt; <a href="index.source.html" class="el_package">entity</a> &gt; <span class="el_source">Game.kt</span></div><h1>Game.kt</h1><pre class="source lang-java linenums">package entity
 
-<span class="pc" id="L3">class Game(var players:List&lt;Player&gt;) {</span>
-<span class="fc" id="L4">    var passCount = 0</span>
-<span class="pc" id="L5">    var currentPlayer: Player = players[0]</span>
-<span class="fc" id="L6">    val drawPile = DrawPile()</span>
-<span class="fc" id="L7">    var placedCards = arrayListOf&lt;Card?&gt;(null, null, null)</span>
-<span class="pc" id="L8">    var ite = players.iterator()</span>
+<span class="nc" id="L3">class Game(var players:List&lt;Player&gt;) {</span>
+<span class="nc" id="L4">    var passCount = 0</span>
+<span class="nc" id="L5">    var currentPlayer: Player = players[0]</span>
+<span class="nc" id="L6">    val drawPile = DrawPile()</span>
+<span class="nc" id="L7">    var placedCards = arrayListOf&lt;Card?&gt;(null, null, null)</span>
+<span class="nc" id="L8">    var ite = players.iterator()</span>
 
     /**
      * Die Methode stellt fest, dass es genug Spieler gibt, um das Spiel zu starten.
      * Wenn es schon genug Spieler gibt, wird die Reihenfolge von Spielern gemischt.
      */
-<span class="fc" id="L14">    init {</span>
-<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        if (players.size &lt; 2) {</span>
+<span class="nc" id="L14">    init {</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        if (players.size &lt; 2) {</span>
 <span class="nc" id="L16">            throw IllegalArgumentException(&quot;Es gibt zu wenig Spieler&quot;)</span>
-<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        } else if (players.size &gt; 4) {</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        } else if (players.size &gt; 4) {</span>
 <span class="nc" id="L18">            throw IllegalArgumentException(&quot;Es gibt zu viele Spieler&quot;)</span>
         }
-<span class="fc" id="L20">        players = players.shuffled()</span>
-<span class="fc" id="L21">        ite = players.iterator()</span>
-<span class="fc" id="L22">        currentPlayer = ite.next()</span>
-<span class="fc" id="L23">    }</span>
+<span class="nc" id="L20">        players = players.shuffled()</span>
+<span class="nc" id="L21">        ite = players.iterator()</span>
+<span class="nc" id="L22">        currentPlayer = ite.next()</span>
+<span class="nc" id="L23">    }</span>
 
     /**
      * Die Methode aktualisiert den aktuellen Spieler, der als nÃ¤chstes dran ist
      */
     fun nextPlayer() {
-<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (ite.hasNext()) {</span>
-<span class="fc" id="L30">            currentPlayer = ite.next()</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (ite.hasNext()) {</span>
+<span class="nc" id="L30">            currentPlayer = ite.next()</span>
         } else {
-<span class="fc" id="L32">            ite = players.iterator()</span>
-<span class="fc" id="L33">            currentPlayer = players[0]</span>
+<span class="nc" id="L32">            ite = players.iterator()</span>
+<span class="nc" id="L33">            currentPlayer = players[0]</span>
         }
-<span class="fc" id="L35">    }</span>
+<span class="nc" id="L35">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

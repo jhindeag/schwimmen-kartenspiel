@@ -20,7 +20,7 @@ class ActionService(private val rootService: RootService) : AbstractRefreshingSe
         if (game.passCount == game.players.size) {
             if (game.drawPile.remainingCards.size >= 3) {
                 rootService.gameService.resetPlacedCards()
-                onAllRefreshables { /*refreshAfterPlacedCardsChange()*/ }
+                onAllRefreshables { refreshAfterPlacedCardsChange() }
             }
         }
         if (rootService.gameService.afterPlayerTurn()) {
@@ -39,29 +39,21 @@ class ActionService(private val rootService: RootService) : AbstractRefreshingSe
     fun tradeOne(cardInHand: Card, cardOnTable: Card) {
         val game = rootService.currentGame
         checkNotNull(game)
-        var handIndex = 0
-        var tableIndex = 0
+        game.passCount = 0
         //find the index of both card on table and card in hand
-        for (i in 0..2) {
-            if (cardInHand.toString() == game.currentPlayer.hand[i].toString()) {
-                handIndex = i
-            }
-            if (cardOnTable.toString() == game.placedCards[i].toString()) {
-                tableIndex = i
-            }
-        }
+        val handIndex = game.currentPlayer.hand.indexOf(cardInHand)
+        val tableIndex = game.currentPlayer.hand.indexOf(cardOnTable)
         //swap the two cards
         game.currentPlayer.hand[handIndex] =
             game.placedCards[tableIndex].also {
                 game.placedCards[tableIndex] =
                     game.currentPlayer.hand[handIndex]
             }
-        onAllRefreshables { /*
-            refreshAfterPlayerStateChange()
+        onAllRefreshables {
+            refreshAfterPlayerStateChange(game.currentPlayer)
             refreshAfterPlacedCardsChange()
-        */
         }
-        if (rootService.gameService.afterPlayerTurn()){
+        if (rootService.gameService.afterPlayerTurn()) {
             rootService.gameService.endGame()
         }
     }
@@ -74,15 +66,15 @@ class ActionService(private val rootService: RootService) : AbstractRefreshingSe
     fun takeAll() {
         val game = rootService.currentGame
         checkNotNull(game)
+        game.passCount = 0
         game.currentPlayer.hand = game.placedCards.also {
             game.placedCards = game.currentPlayer.hand
         }
-        onAllRefreshables { /*
-            refreshAfterPlayerStateChange()
+        onAllRefreshables {
+            refreshAfterPlayerStateChange(game.currentPlayer)
             refreshAfterPlacedCardsChange()
-        */
         }
-        if (rootService.gameService.afterPlayerTurn()){
+        if (rootService.gameService.afterPlayerTurn()) {
             rootService.gameService.endGame()
         }
     }
@@ -96,6 +88,7 @@ class ActionService(private val rootService: RootService) : AbstractRefreshingSe
     fun knock() {
         val game = rootService.currentGame
         checkNotNull(game)
+        game.passCount = 0
         game.currentPlayer.hasKnocked = true
         if (rootService.gameService.afterPlayerTurn()){
             rootService.gameService.endGame()

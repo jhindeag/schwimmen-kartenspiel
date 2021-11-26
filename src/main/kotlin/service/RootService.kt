@@ -1,6 +1,8 @@
 package service
 
-import entity.*
+import entity.Game
+import view.Refreshable
+
 /**
  * Main class of the service layer for the Schwimmen card game. Provides access
  * to all other service classes and holds the [currentGame] state for these

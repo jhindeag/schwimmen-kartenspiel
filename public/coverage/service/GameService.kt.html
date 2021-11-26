@@ -4,24 +4,24 @@
  * The actions that manipulate the game
  * are defined here
  */
-<span class="fc" id="L7">class GameService(private val rootService: RootService) : AbstractRefreshingService() {</span>
+<span class="nc" id="L7">class GameService(private val rootService: RootService) : AbstractRefreshingService() {</span>
 
     /***
      * Gives all player three cards at the beginning of the game
      */
     fun handOutCards() {
-<span class="fc" id="L13">        val game = rootService.currentGame</span>
-<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        checkNotNull(game)</span>
-<span class="fc bfc" id="L15" title="All 2 branches covered.">        for (i in 0..2) {</span>
-<span class="fc" id="L16">            game.players[i].hand =</span>
-<span class="fc" id="L17">                arrayListOf(</span>
-<span class="fc" id="L18">                    game.drawPile.draw(),</span>
-<span class="fc" id="L19">                    game.drawPile.draw(),</span>
-<span class="fc" id="L20">                    game.drawPile.draw()</span>
+<span class="nc" id="L13">        val game = rootService.currentGame</span>
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        checkNotNull(game)</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">        for (i in 0..2) {</span>
+<span class="nc" id="L16">            game.players[i].hand =</span>
+<span class="nc" id="L17">                arrayListOf(</span>
+<span class="nc" id="L18">                    game.drawPile.draw(),</span>
+<span class="nc" id="L19">                    game.drawPile.draw(),</span>
+<span class="nc" id="L20">                    game.drawPile.draw()</span>
                 )
         }
-<span class="pc" id="L23">        onAllRefreshables { /*refreshAfterPlayerStateChange()*/ }</span>
-<span class="fc" id="L24">    }</span>
+<span class="nc" id="L23">        onAllRefreshables { /*refreshAfterPlayerStateChange()*/ }</span>
+<span class="nc" id="L24">    }</span>
 
     /***
      * Updates the new drawn cards on table
@@ -29,42 +29,45 @@
      * @throws IllegalStateException when there are not enough cards to replace
      */
     fun resetPlacedCards() {
-<span class="fc" id="L32">        val game = rootService.currentGame</span>
-<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        checkNotNull(game)</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (game.drawPile.remainingCards.size &gt;= 3) {</span>
-<span class="fc" id="L35">            game.placedCards = arrayListOf(</span>
-<span class="fc" id="L36">                game.drawPile.draw(),</span>
-<span class="fc" id="L37">                game.drawPile.draw(),</span>
-<span class="fc" id="L38">                game.drawPile.draw()</span>
+<span class="nc" id="L32">        val game = rootService.currentGame</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        checkNotNull(game)</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (game.drawPile.remainingCards.size &gt;= 3) {</span>
+<span class="nc" id="L35">            game.placedCards = arrayListOf(</span>
+<span class="nc" id="L36">                game.drawPile.draw(),</span>
+<span class="nc" id="L37">                game.drawPile.draw(),</span>
+<span class="nc" id="L38">                game.drawPile.draw()</span>
             )
         } else {
-<span class="fc" id="L41">            throw IllegalStateException()</span>
+<span class="nc" id="L41">            throw IllegalStateException()</span>
         }
-<span class="pc" id="L43">        onAllRefreshables { /*refreshAfterPlacedCardsChange() */ }</span>
-<span class="fc" id="L44">    }</span>
+<span class="nc" id="L43">        onAllRefreshables { /*refreshAfterPlacedCardsChange() */ }</span>
+<span class="nc" id="L44">    }</span>
 
 
     /***
      * Ends the current turn and checks the game ending condition
      */
     fun afterPlayerTurn(): Boolean {
-<span class="fc" id="L51">        val game = rootService.currentGame</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        checkNotNull(game)</span>
-<span class="fc" id="L53">        game.nextPlayer()</span>
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        return (((game.passCount == game.players.size)</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">                &amp;&amp; (game.drawPile.remainingCards.size &lt; 3))</span>
-<span class="fc bfc" id="L56" title="All 2 branches covered.">                || game.currentPlayer.hasKnocked)</span>
+<span class="nc" id="L51">        val game = rootService.currentGame</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        checkNotNull(game)</span>
+<span class="nc" id="L53">        game.nextPlayer()</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        return (((game.passCount == game.players.size)</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                &amp;&amp; (game.drawPile.remainingCards.size &lt; 3))</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                || game.currentPlayer.hasKnocked)</span>
     }
 
     /***
      * Ends the game and shows scoreboard
      */
     fun endGame() {
-<span class="fc" id="L63">        val game = rootService.currentGame</span>
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        checkNotNull(game)</span>
-<span class="fc" id="L65">        game.players.sortedWith(compareBy { it.points })</span>
-<span class="pc" id="L66">        onAllRefreshables { /*refreshAfterEndGame()*/ }</span>
-<span class="fc" id="L67">        rootService.currentGame = null</span>
-<span class="fc" id="L68">    }</span>
+<span class="nc" id="L63">        val game = rootService.currentGame</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        checkNotNull(game)</span>
+<span class="nc bnc" id="L65" title="All 4 branches missed.">        for (i in 0..(game.players.size - 1)) {</span>
+<span class="nc" id="L66">            game.players[i].points = game.players[i].calculate()</span>
+        }
+<span class="nc" id="L68">        game.players.sortedWith(compareBy { it.points })</span>
+<span class="nc" id="L69">        onAllRefreshables { /*refreshAfterEndGame()*/ }</span>
+<span class="nc" id="L70">        rootService.currentGame = null</span>
+<span class="nc" id="L71">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -62,6 +62,9 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
     fun endGame() {
         val game = rootService.currentGame
         checkNotNull(game)
+        for (i in 0..(game.players.size - 1)) {
+            game.players[i].points = game.players[i].calculate()
+        }
         game.players.sortedWith(compareBy { it.points })
         onAllRefreshables { /*refreshAfterEndGame()*/ }
         rootService.currentGame = null

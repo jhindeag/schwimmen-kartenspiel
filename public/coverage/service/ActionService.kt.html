@@ -6,7 +6,7 @@ import entity.Card
  * All four actions that the player can take in a
  * player turn are defined here
  */
-<span class="fc" id="L9">class ActionService(private val rootService: RootService) : AbstractRefreshingService() {</span>
+<span class="nc" id="L9">class ActionService(private val rootService: RootService) : AbstractRefreshingService() {</span>
 
     /***
      * Passes the current turn, increase the passCount,
@@ -14,19 +14,19 @@ import entity.Card
      * of the game is reached or the game continues
      */
     fun pass() {
-<span class="fc" id="L17">        val game = rootService.currentGame</span>
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        checkNotNull(game)</span>
-<span class="fc" id="L19">        game.passCount++</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (game.passCount == game.players.size) {</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">            if (game.drawPile.remainingCards.size &gt;= 3) {</span>
-<span class="fc" id="L22">                rootService.gameService.resetPlacedCards()</span>
-<span class="pc" id="L23">                onAllRefreshables { /*refreshAfterPlacedCardsChange()*/ }</span>
+<span class="nc" id="L17">        val game = rootService.currentGame</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">        checkNotNull(game)</span>
+<span class="nc" id="L19">        game.passCount++</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (game.passCount == game.players.size) {</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">            if (game.drawPile.remainingCards.size &gt;= 3) {</span>
+<span class="nc" id="L22">                rootService.gameService.resetPlacedCards()</span>
+<span class="nc" id="L23">                onAllRefreshables { refreshAfterPlacedCardsChange() }</span>
             }
         }
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (rootService.gameService.afterPlayerTurn()) {</span>
-<span class="fc" id="L27">            rootService.gameService.endGame()</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (rootService.gameService.afterPlayerTurn()) {</span>
+<span class="nc" id="L27">            rootService.gameService.endGame()</span>
         }
-<span class="fc" id="L29">    }</span>
+<span class="nc" id="L29">    }</span>
 
     /***
      * Trades one card in hand with one card on table,
@@ -39,32 +39,24 @@ import entity.Card
     fun tradeOne(cardInHand: Card, cardOnTable: Card) {
 <span class="nc" id="L40">        val game = rootService.currentGame</span>
 <span class="nc bnc" id="L41" title="All 2 branches missed.">        checkNotNull(game)</span>
-<span class="nc" id="L42">        var handIndex = 0</span>
-<span class="nc" id="L43">        var tableIndex = 0</span>
+<span class="nc" id="L42">        game.passCount = 0</span>
         //find the index of both card on table and card in hand
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (i in 0..2) {</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (cardInHand.toString() == game.currentPlayer.hand[i].toString()) {</span>
-<span class="nc" id="L47">                handIndex = i</span>
-            }
-<span class="nc bnc" id="L49" title="All 2 branches missed.">            if (cardOnTable.toString() == game.placedCards[i].toString()) {</span>
-<span class="nc" id="L50">                tableIndex = i</span>
-            }
-        }
+<span class="nc" id="L44">        val handIndex = game.currentPlayer.hand.indexOf(cardInHand)</span>
+<span class="nc" id="L45">        val tableIndex = game.currentPlayer.hand.indexOf(cardOnTable)</span>
         //swap the two cards
-<span class="nc" id="L54">        game.currentPlayer.hand[handIndex] =</span>
-<span class="nc" id="L55">            game.placedCards[tableIndex].also {</span>
-<span class="nc" id="L56">                game.placedCards[tableIndex] =</span>
-<span class="nc" id="L57">                    game.currentPlayer.hand[handIndex]</span>
-<span class="nc" id="L58">            }</span>
-<span class="nc" id="L59">        onAllRefreshables { /*</span>
-            refreshAfterPlayerStateChange()
-            refreshAfterPlacedCardsChange()
-        */
+<span class="nc" id="L47">        game.currentPlayer.hand[handIndex] =</span>
+<span class="nc" id="L48">            game.placedCards[tableIndex].also {</span>
+<span class="nc" id="L49">                game.placedCards[tableIndex] =</span>
+<span class="nc" id="L50">                    game.currentPlayer.hand[handIndex]</span>
+<span class="nc" id="L51">            }</span>
+<span class="nc" id="L52">        onAllRefreshables {</span>
+<span class="nc" id="L53">            refreshAfterPlayerStateChange(game.currentPlayer)</span>
+<span class="nc" id="L54">            refreshAfterPlacedCardsChange()</span>
+<span class="nc" id="L55">        }</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (rootService.gameService.afterPlayerTurn()) {</span>
+<span class="nc" id="L57">            rootService.gameService.endGame()</span>
         }
-<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (rootService.gameService.afterPlayerTurn()){</span>
-<span class="nc" id="L65">            rootService.gameService.endGame()</span>
-        }
-<span class="nc" id="L67">    }</span>
+<span class="nc" id="L59">    }</span>
 
     /***
      * Trades all cards in hand with all cards on table,
@@ -72,20 +64,20 @@ import entity.Card
      * of the game is reached or the game continues
      */
     fun takeAll() {
-<span class="fc" id="L75">        val game = rootService.currentGame</span>
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        checkNotNull(game)</span>
-<span class="fc" id="L77">        game.currentPlayer.hand = game.placedCards.also {</span>
-<span class="fc" id="L78">            game.placedCards = game.currentPlayer.hand</span>
-<span class="fc" id="L79">        }</span>
-<span class="pc" id="L80">        onAllRefreshables { /*</span>
-            refreshAfterPlayerStateChange()
-            refreshAfterPlacedCardsChange()
-        */
+<span class="nc" id="L67">        val game = rootService.currentGame</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        checkNotNull(game)</span>
+<span class="nc" id="L69">        game.passCount = 0</span>
+<span class="nc" id="L70">        game.currentPlayer.hand = game.placedCards.also {</span>
+<span class="nc" id="L71">            game.placedCards = game.currentPlayer.hand</span>
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">        onAllRefreshables {</span>
+<span class="nc" id="L74">            refreshAfterPlayerStateChange(game.currentPlayer)</span>
+<span class="nc" id="L75">            refreshAfterPlacedCardsChange()</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (rootService.gameService.afterPlayerTurn()) {</span>
+<span class="nc" id="L78">            rootService.gameService.endGame()</span>
         }
-<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (rootService.gameService.afterPlayerTurn()){</span>
-<span class="fc" id="L86">            rootService.gameService.endGame()</span>
-        }
-<span class="fc" id="L88">    }</span>
+<span class="nc" id="L80">    }</span>
 
     /***
      * Knocks, changes the status of the player and ends turn,
@@ -94,12 +86,13 @@ import entity.Card
      *
      */
     fun knock() {
-<span class="fc" id="L97">        val game = rootService.currentGame</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        checkNotNull(game)</span>
-<span class="fc" id="L99">        game.currentPlayer.hasKnocked = true</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (rootService.gameService.afterPlayerTurn()){</span>
-<span class="nc" id="L101">            rootService.gameService.endGame()</span>
+<span class="nc" id="L89">        val game = rootService.currentGame</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        checkNotNull(game)</span>
+<span class="nc" id="L91">        game.passCount = 0</span>
+<span class="nc" id="L92">        game.currentPlayer.hasKnocked = true</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (rootService.gameService.afterPlayerTurn()){</span>
+<span class="nc" id="L94">            rootService.gameService.endGame()</span>
         }
-<span class="fc" id="L103">    }</span>
+<span class="nc" id="L96">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

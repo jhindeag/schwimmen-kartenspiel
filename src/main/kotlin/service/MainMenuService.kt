@@ -21,48 +21,49 @@ class MainMenuService(private val rootService: RootService) : AbstractRefreshing
      */
     fun startGame(p1: String, p2: String, p3: String?, p4: String?) {
         var game: Game? = null
-        if (p4 == null && p3 != null) {
+        if (p4 == "" && p3 != "") {
             game = Game(
                 listOf(
                     Player(p1),
                     Player(p2),
-                    Player(p3)
+                    Player(p3.toString())
                 )
             )
-        } else if (p4 != null && p3 == null) {
+        } else if (p4 != "" && p3 == "") {
             game = Game(
                 listOf(
                     Player(p1),
                     Player(p2),
-                    Player(p4)
+                    Player(p4.toString())
                 )
             )
-        } else if (p3 == null && p4 == null) {
+        } else if (p3 != "" && p4 != "") {
+            game = Game(
+                listOf(
+                    Player(p1),
+                    Player(p2),
+                    Player(p3.toString()),
+                    Player(p4.toString())
+                )
+            )
+        } else {
             game = Game(
                 listOf(
                     Player(p1),
                     Player(p2)
                 )
             )
-        } else if (p3 != null && p4 != null) {
-            game = Game(
-                listOf(
-                    Player(p1),
-                    Player(p2),
-                    Player(p3),
-                    Player(p4)
-                )
-            )
+            rootService.currentGame = game
+            rootService.gameService.handOutCards()
+            onAllRefreshables { refreshAfterStartGame() }
         }
-        rootService.currentGame = game
-        onAllRefreshables { /*refreshAfterStartGame*/ }
-    }
 
-    /***
-     * Closes the application
-     */
-    fun quitGame() {
-        SopraApplication().exit()
-        exitProcess(0)
+        /***
+         * Closes the application
+         */
+        fun quitGame() {
+            SopraApplication().exit()
+            exitProcess(0)
+        }
     }
 }

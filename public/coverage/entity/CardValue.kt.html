@@ -47,6 +47,20 @@ enum class CardValue {
 <span class="nc" id="L47">            ACE -&gt; &quot;A&quot;</span>
 <span class="nc" id="L48">        }</span>
 
+    fun toInt() =
+<span class="pc bpc" id="L51" title="8 of 10 branches missed.">        when (this) {</span>
+<span class="nc" id="L52">            TWO -&gt; 2</span>
+<span class="nc" id="L53">            THREE -&gt; 3</span>
+<span class="nc" id="L54">            FOUR -&gt; 4</span>
+<span class="nc" id="L55">            FIVE -&gt; 5</span>
+<span class="nc" id="L56">            SIX -&gt; 6</span>
+<span class="nc" id="L57">            SEVEN -&gt; 7</span>
+<span class="nc" id="L58">            EIGHT -&gt; 8</span>
+<span class="nc" id="L59">            NINE -&gt; 9</span>
+<span class="fc" id="L60">            TEN, JACK, QUEEN, KING -&gt; 10</span>
+<span class="fc" id="L61">            ACE -&gt; 11</span>
+<span class="fc" id="L62">        }</span>
+
 
     companion object {
 
@@ -54,7 +68,7 @@ enum class CardValue {
          * A set of values for a reduced set of 4x8=32 cards (starting with the 7)
          */
         fun shortDeck(): Set&lt;CardValue&gt; {
-<span class="nc" id="L57">            return EnumSet.of(ACE, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING)</span>
+<span class="nc" id="L71">            return EnumSet.of(ACE, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING)</span>
         }
 
     }
