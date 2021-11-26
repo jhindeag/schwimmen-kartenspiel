@@ -6,12 +6,10 @@ import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.components.uicomponents.TextField
 import tools.aqua.bgw.core.Alignment
 import tools.aqua.bgw.core.BoardGameScene
-import tools.aqua.bgw.event.MouseButtonType
-import tools.aqua.bgw.event.MouseEvent
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
-class HelloScene(val rootService: RootService) : BoardGameScene(500, 500), Refreshable {
+class MainMenuScene(val rootService: RootService) : BoardGameScene(500, 500), Refreshable {
 
     private val helloLabel = Label(
         width = 500,
@@ -73,7 +71,11 @@ class HelloScene(val rootService: RootService) : BoardGameScene(500, 500), Refre
         isWrapText = true,
         visual = ColorVisual.GREEN
     ).apply {
-       // onMouseClicked(MouseEvent(MouseButtonType.LEFT_BUTTON,))
+        onMouseClicked = {
+            rootService.mainMenuService.startGame(
+                player1.text, player2.text, player3.text, player4.text
+            )
+        }
     }
 
     private val quitGame = Button(
@@ -86,7 +88,11 @@ class HelloScene(val rootService: RootService) : BoardGameScene(500, 500), Refre
         Alignment.CENTER,
         isWrapText = true,
         visual = ColorVisual.RED
-    )
+    ).apply {
+        onMouseClicked = {
+            rootService.mainMenuService.quitGame()
+        }
+    }
 
     init {
         background = ColorVisual(108, 168, 59)

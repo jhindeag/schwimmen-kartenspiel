@@ -8,10 +8,6 @@ import entity.Player
  */
 interface Refreshable {
 
-    fun refreshAfterPlayerAdded() {
-
-    }
-
     fun refreshAfterStartGame() {
 
     }

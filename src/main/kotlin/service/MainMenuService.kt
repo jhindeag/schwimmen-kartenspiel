@@ -2,7 +2,6 @@ package service
 
 import entity.Game
 import entity.Player
-import view.SopraApplication
 import kotlin.system.exitProcess
 
 /***
@@ -20,7 +19,7 @@ class MainMenuService(private val rootService: RootService) : AbstractRefreshing
      * @param p4 name of the player 4
      */
     fun startGame(p1: String, p2: String, p3: String?, p4: String?) {
-        var game: Game? = null
+        var game: Game?
         if (p4 == "" && p3 != "") {
             game = Game(
                 listOf(
@@ -57,13 +56,12 @@ class MainMenuService(private val rootService: RootService) : AbstractRefreshing
             rootService.gameService.handOutCards()
             onAllRefreshables { refreshAfterStartGame() }
         }
+    }
 
-        /***
-         * Closes the application
-         */
-        fun quitGame() {
-            SopraApplication().exit()
-            exitProcess(0)
-        }
+    /***
+     * Closes the application
+     */
+    fun quitGame() {
+        exitProcess(0)
     }
 }
