@@ -39,7 +39,6 @@ class ActionService(private val rootService: RootService) : AbstractRefreshingSe
     fun tradeOne(cardInHand: Card, cardOnTable: Card) {
         val game = rootService.currentGame
         checkNotNull(game)
-        onAllRefreshables { refreshAfterPlayerStateChange(game.currentPlayer) }
         game.passCount = 0
         //find the index of both card on table and card in hand
         var handIndex = 0
@@ -75,7 +74,6 @@ class ActionService(private val rootService: RootService) : AbstractRefreshingSe
     fun takeAll() {
         val game = rootService.currentGame
         checkNotNull(game)
-        onAllRefreshables { refreshAfterPlayerStateChange(game.currentPlayer) }
         game.passCount = 0
         game.currentPlayer.hand = game.placedCards.also {
             game.placedCards = game.currentPlayer.hand
@@ -97,7 +95,6 @@ class ActionService(private val rootService: RootService) : AbstractRefreshingSe
     fun knock() {
         val game = rootService.currentGame
         checkNotNull(game)
-        onAllRefreshables { refreshAfterPlayerStateChange(game.currentPlayer) }
         game.passCount = 0
         game.currentPlayer.hasKnocked = true
         if (rootService.gameService.afterPlayerTurn()){
