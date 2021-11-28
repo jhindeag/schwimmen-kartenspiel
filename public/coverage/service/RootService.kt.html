@@ -8,15 +8,15 @@ import view.Refreshable
  * to all other service classes and holds the [currentGame] state for these
  * services to access.
  */
-<span class="nc" id="L11">class RootService {</span>
-<span class="nc" id="L12">    val mainMenuService = MainMenuService(this)</span>
-<span class="nc" id="L13">    val gameService = GameService(this)</span>
-<span class="nc" id="L14">    val actionService = ActionService(this)</span>
+<span class="fc" id="L11">class RootService {</span>
+<span class="fc" id="L12">    val mainMenuService = MainMenuService(this)</span>
+<span class="fc" id="L13">    val gameService = GameService(this)</span>
+<span class="fc" id="L14">    val actionService = ActionService(this)</span>
 
     /**
      * The currently active game. Can be `null`, if no game has started yet.
      */
-<span class="nc" id="L19">    var currentGame : Game? = null</span>
+<span class="fc" id="L19">    var currentGame : Game? = null</span>
 
     /**
      * Adds the provided [newRefreshable] to all services connected

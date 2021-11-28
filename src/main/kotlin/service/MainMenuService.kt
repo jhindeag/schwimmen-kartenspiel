@@ -19,30 +19,30 @@ class MainMenuService(private val rootService: RootService) : AbstractRefreshing
      * @param p4 name of the player 4
      */
     fun startGame(p1: String, p2: String, p3: String?, p4: String?) {
-        var game: Game?
-        if (p4 == "" && p3 != "") {
+        val game: Game?
+        if (p4 == null && p3 != null) {
             game = Game(
                 listOf(
                     Player(p1),
                     Player(p2),
-                    Player(p3.toString())
+                    Player(p3)
                 )
             )
-        } else if (p4 != "" && p3 == "") {
+        } else if (p4 != null && p3 == null) {
             game = Game(
                 listOf(
                     Player(p1),
                     Player(p2),
-                    Player(p4.toString())
+                    Player(p4)
                 )
             )
-        } else if (p3 != "" && p4 != "") {
+        } else if (p3 != null && p4 != null) {
             game = Game(
                 listOf(
                     Player(p1),
                     Player(p2),
-                    Player(p3.toString()),
-                    Player(p4.toString())
+                    Player(p3),
+                    Player(p4)
                 )
             )
         } else {
@@ -52,10 +52,11 @@ class MainMenuService(private val rootService: RootService) : AbstractRefreshing
                     Player(p2)
                 )
             )
-            rootService.currentGame = game
-            rootService.gameService.handOutCards()
-            onAllRefreshables { refreshAfterStartGame() }
         }
+        rootService.currentGame = game
+        rootService.gameService.handOutCards()
+        rootService.gameService.resetPlacedCards()
+        onAllRefreshables { refreshAfterStartGame() }
     }
 
     /***

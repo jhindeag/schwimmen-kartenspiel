@@ -84,8 +84,8 @@ internal class ActionServiceTest {
             Card(CardSuit.CLUBS, CardValue.ACE)
         )
         //check if the cards are traded correctly
-        assertEquals(player.hand[0], Card(CardSuit.CLUBS, CardValue.ACE))
-        assertEquals(game.placedCards[1], Card(CardSuit.DIAMONDS, CardValue.SEVEN))
+        assertEquals(Card(CardSuit.CLUBS, CardValue.ACE), player.hand[0])
+        assertEquals(Card(CardSuit.DIAMONDS, CardValue.SEVEN), game.placedCards[1])
     }
 
     /***

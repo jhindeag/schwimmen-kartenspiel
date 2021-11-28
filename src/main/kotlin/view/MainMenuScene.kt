@@ -5,11 +5,11 @@ import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.components.uicomponents.TextField
 import tools.aqua.bgw.core.Alignment
-import tools.aqua.bgw.core.BoardGameScene
+import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
-class MainMenuScene(val rootService: RootService) : BoardGameScene(500, 500), Refreshable {
+class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVisual.WHITE), Refreshable {
 
     private val helloLabel = Label(
         width = 500,
@@ -26,7 +26,7 @@ class MainMenuScene(val rootService: RootService) : BoardGameScene(500, 500), Re
         width = 180,
         height = 50,
         text = "Alex",
-        prompt = "Alex",
+        prompt = "Player 1",
         font = Font(size = 20)
     )
 
@@ -36,7 +36,7 @@ class MainMenuScene(val rootService: RootService) : BoardGameScene(500, 500), Re
         width = 180,
         height = 50,
         text = "Bertha",
-        prompt = "Bertha",
+        prompt = "Player 2",
         font = Font(size = 20)
     )
 
@@ -46,7 +46,7 @@ class MainMenuScene(val rootService: RootService) : BoardGameScene(500, 500), Re
         width = 180,
         height = 50,
         text = "",
-        prompt = "",
+        prompt = "Player 3",
         font = Font(size = 20)
     )
 
@@ -56,7 +56,7 @@ class MainMenuScene(val rootService: RootService) : BoardGameScene(500, 500), Re
         width = 180,
         height = 50,
         text = "",
-        prompt = "",
+        prompt = "Player 4",
         font = Font(size = 20)
     )
 
@@ -72,9 +72,26 @@ class MainMenuScene(val rootService: RootService) : BoardGameScene(500, 500), Re
         visual = ColorVisual.GREEN
     ).apply {
         onMouseClicked = {
-            rootService.mainMenuService.startGame(
-                player1.text, player2.text, player3.text, player4.text
-            )
+            rootService.currentGame = null
+            if (player3.text == "") {
+                if (player4.text == "") {
+                    rootService.mainMenuService.startGame(
+                        player1.text, player2.text, null, null
+                    )
+                } else {
+                    rootService.mainMenuService.startGame(
+                        player1.text, player2.text, null, player4.text
+                    )
+                }
+            } else if (player4.text == "") {
+                rootService.mainMenuService.startGame(
+                    player1.text, player2.text, player3.text, null
+                )
+            } else {
+                rootService.mainMenuService.startGame(
+                    player1.text, player2.text, player3.text, player4.text
+                )
+            }
         }
     }
 

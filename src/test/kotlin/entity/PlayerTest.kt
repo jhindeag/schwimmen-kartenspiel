@@ -26,7 +26,6 @@ internal class PlayerTest {
             Card(CardSuit.DIAMONDS, CardValue.KING),
             Card(CardSuit.DIAMONDS, CardValue.QUEEN)
         )
-        player.points = player.calculate()
         assertEquals(31.0, player.points)
     }
 
@@ -41,7 +40,6 @@ internal class PlayerTest {
             Card(CardSuit.SPADES, CardValue.ACE),
             Card(CardSuit.HEARTS, CardValue.ACE)
         )
-        player.points = player.calculate()
         assertEquals(30.5, player.points)
     }
 
@@ -56,7 +54,6 @@ internal class PlayerTest {
             Card(CardSuit.DIAMONDS, CardValue.KING),
             Card(CardSuit.DIAMONDS, CardValue.SEVEN)
         )
-        player.points = player.calculate()
         assertEquals(17.0, player.points)
     }
 }

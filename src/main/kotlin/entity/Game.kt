@@ -26,11 +26,9 @@ class Game(var players:List<Player>) {
      * Die Methode aktualisiert den aktuellen Spieler, der als nächstes dran ist
      */
     fun nextPlayer() {
-        if (ite.hasNext()) {
-            currentPlayer = ite.next()
-        } else {
+        if (!ite.hasNext()){
             ite = players.iterator()
-            currentPlayer = players[0]
         }
+        currentPlayer = ite.next()
     }
 }

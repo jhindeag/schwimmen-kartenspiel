@@ -7,7 +7,8 @@ import kotlin.math.max
  */
 data class Player(val name: String) {
     var hand = ArrayList<Card?>(3)
-    var points = 0.0
+    val points : Double
+        get() = calculate()
     var hasKnocked = false
 
     /**

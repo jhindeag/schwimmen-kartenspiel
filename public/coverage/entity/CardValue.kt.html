@@ -31,24 +31,24 @@ enum class CardValue {
      * Returns one of: 2/3/4/5/6/7/8/9/10/J/Q/K/A
      */
     override fun toString() =
-<span class="nc bnc" id="L34" title="All 13 branches missed.">        when (this) {</span>
-<span class="nc" id="L35">            TWO -&gt; &quot;2&quot;</span>
+<span class="pc bpc" id="L34" title="7 of 13 branches missed.">        when (this) {</span>
+<span class="fc" id="L35">            TWO -&gt; &quot;2&quot;</span>
 <span class="nc" id="L36">            THREE -&gt; &quot;3&quot;</span>
 <span class="nc" id="L37">            FOUR -&gt; &quot;4&quot;</span>
 <span class="nc" id="L38">            FIVE -&gt; &quot;5&quot;</span>
-<span class="nc" id="L39">            SIX -&gt; &quot;6&quot;</span>
-<span class="nc" id="L40">            SEVEN -&gt; &quot;7&quot;</span>
+<span class="fc" id="L39">            SIX -&gt; &quot;6&quot;</span>
+<span class="fc" id="L40">            SEVEN -&gt; &quot;7&quot;</span>
 <span class="nc" id="L41">            EIGHT -&gt; &quot;8&quot;</span>
-<span class="nc" id="L42">            NINE -&gt; &quot;9&quot;</span>
+<span class="fc" id="L42">            NINE -&gt; &quot;9&quot;</span>
 <span class="nc" id="L43">            TEN -&gt; &quot;10&quot;</span>
 <span class="nc" id="L44">            JACK -&gt; &quot;J&quot;</span>
-<span class="nc" id="L45">            QUEEN -&gt; &quot;Q&quot;</span>
+<span class="fc" id="L45">            QUEEN -&gt; &quot;Q&quot;</span>
 <span class="nc" id="L46">            KING -&gt; &quot;K&quot;</span>
-<span class="nc" id="L47">            ACE -&gt; &quot;A&quot;</span>
-<span class="nc" id="L48">        }</span>
+<span class="fc" id="L47">            ACE -&gt; &quot;A&quot;</span>
+<span class="fc" id="L48">        }</span>
 
     fun toInt() =
-<span class="pc bpc" id="L51" title="8 of 10 branches missed.">        when (this) {</span>
+<span class="nc bnc" id="L51" title="All 10 branches missed.">        when (this) {</span>
 <span class="nc" id="L52">            TWO -&gt; 2</span>
 <span class="nc" id="L53">            THREE -&gt; 3</span>
 <span class="nc" id="L54">            FOUR -&gt; 4</span>
@@ -57,9 +57,9 @@ enum class CardValue {
 <span class="nc" id="L57">            SEVEN -&gt; 7</span>
 <span class="nc" id="L58">            EIGHT -&gt; 8</span>
 <span class="nc" id="L59">            NINE -&gt; 9</span>
-<span class="fc" id="L60">            TEN, JACK, QUEEN, KING -&gt; 10</span>
-<span class="fc" id="L61">            ACE -&gt; 11</span>
-<span class="fc" id="L62">        }</span>
+<span class="nc" id="L60">            TEN, JACK, QUEEN, KING -&gt; 10</span>
+<span class="nc" id="L61">            ACE -&gt; 11</span>
+<span class="nc" id="L62">        }</span>
 
 
     companion object {

@@ -2,8 +2,8 @@
 
 import tools.aqua.bgw.util.Stack
 
-<span class="nc" id="L5">class DrawPile {</span>
-<span class="nc" id="L6">    val remainingCards: Stack&lt;Card&gt; = Stack()</span>
+<span class="fc" id="L5">class DrawPile {</span>
+<span class="fc" id="L6">    val remainingCards: Stack&lt;Card&gt; = Stack()</span>
 
     /**
      * Die Methode zieht die oberste Karte aus dem Ziehstapel
@@ -12,10 +12,10 @@ import tools.aqua.bgw.util.Stack
      * @return Das oberste Karte-Objekt im Stack
      */
     fun draw(): Card {
-<span class="nc bnc" id="L15" title="All 2 branches missed.">        if (remainingCards.size == 0) {</span>
+<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        if (remainingCards.size == 0) {</span>
 <span class="nc" id="L16">            throw IllegalStateException(&quot;There is no card to draw&quot;)</span>
         } else {
-<span class="nc" id="L18">            return remainingCards.pop()</span>
+<span class="fc" id="L18">            return remainingCards.pop()</span>
         }
     }
 
@@ -23,55 +23,55 @@ import tools.aqua.bgw.util.Stack
      * Die Methode fÃ¼gt alle 32 Skat-Karten in den Ziehstapel hinzu.
      * Dann wird der Ziehstapel gemischt, damit die Reihenfolge von Karten zufÃ¤llig am Anfang jedes Spiels ist
      */
-<span class="nc" id="L26">    init {</span>
-<span class="nc" id="L27">        var value: CardValue = CardValue.ACE</span>
-<span class="nc" id="L28">        var suit: CardSuit = CardSuit.DIAMONDS</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (i in 1..4) {</span>
-<span class="nc bnc" id="L30" title="All 2 branches missed.">            for (j in 6..13) {</span>
-<span class="nc bnc" id="L31" title="All 5 branches missed.">                when (i) {</span>
+<span class="fc" id="L26">    init {</span>
+<span class="fc" id="L27">        var value: CardValue = CardValue.ACE</span>
+<span class="fc" id="L28">        var suit: CardSuit = CardSuit.DIAMONDS</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        for (i in 1..4) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            for (j in 6..13) {</span>
+<span class="pc bpc" id="L31" title="1 of 5 branches missed.">                when (i) {</span>
                     1 -&gt; {
-<span class="nc" id="L33">                        suit = CardSuit.CLUBS</span>
+<span class="fc" id="L33">                        suit = CardSuit.CLUBS</span>
                     }
                     2 -&gt; {
-<span class="nc" id="L36">                        suit = CardSuit.HEARTS</span>
+<span class="fc" id="L36">                        suit = CardSuit.HEARTS</span>
                     }
                     3 -&gt; {
-<span class="nc" id="L39">                        suit = CardSuit.SPADES</span>
+<span class="fc" id="L39">                        suit = CardSuit.SPADES</span>
                     }
                     4 -&gt; {
-<span class="nc" id="L42">                        suit = CardSuit.DIAMONDS</span>
+<span class="fc" id="L42">                        suit = CardSuit.DIAMONDS</span>
                     }
                 }
-<span class="nc bnc" id="L45" title="All 9 branches missed.">                when (j) {</span>
+<span class="pc bpc" id="L45" title="1 of 9 branches missed.">                when (j) {</span>
                     6 -&gt; {
-<span class="nc" id="L47">                        value = CardValue.ACE</span>
+<span class="fc" id="L47">                        value = CardValue.ACE</span>
                     }
                     7 -&gt; {
-<span class="nc" id="L50">                        value = CardValue.SEVEN</span>
+<span class="fc" id="L50">                        value = CardValue.SEVEN</span>
                     }
                     8 -&gt; {
-<span class="nc" id="L53">                        value = CardValue.EIGHT</span>
+<span class="fc" id="L53">                        value = CardValue.EIGHT</span>
                     }
                     9 -&gt; {
-<span class="nc" id="L56">                        value = CardValue.NINE</span>
+<span class="fc" id="L56">                        value = CardValue.NINE</span>
                     }
                     10 -&gt; {
-<span class="nc" id="L59">                        value = CardValue.TEN</span>
+<span class="fc" id="L59">                        value = CardValue.TEN</span>
                     }
                     11 -&gt; {
-<span class="nc" id="L62">                        value = CardValue.JACK</span>
+<span class="fc" id="L62">                        value = CardValue.JACK</span>
                     }
                     12 -&gt; {
-<span class="nc" id="L65">                        value = CardValue.QUEEN</span>
+<span class="fc" id="L65">                        value = CardValue.QUEEN</span>
                     }
                     13 -&gt; {
-<span class="nc" id="L68">                        value = CardValue.KING</span>
+<span class="fc" id="L68">                        value = CardValue.KING</span>
                     }
                 }
-<span class="nc" id="L71">                remainingCards.push(Card(suit, value))</span>
+<span class="fc" id="L71">                remainingCards.push(Card(suit, value))</span>
             }
         }
-<span class="nc" id="L74">        remainingCards.shuffle()</span>
-<span class="nc" id="L75">    }</span>
+<span class="fc" id="L74">        remainingCards.shuffle()</span>
+<span class="fc" id="L75">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

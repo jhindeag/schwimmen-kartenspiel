@@ -12,7 +12,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
     fun handOutCards() {
         val game = rootService.currentGame
         checkNotNull(game)
-        for (i in 0..2) {
+        for (i in 0..game.players.size - 1) {
             game.players[i].hand =
                 arrayListOf(
                     game.drawPile.draw(),
@@ -20,7 +20,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
                     game.drawPile.draw()
                 )
         }
-        onAllRefreshables { /*refreshAfterPlayerStateChange()*/ }
+        onAllRefreshables { refreshAfterPlayerStateChange(game.currentPlayer) }
     }
 
     /***
@@ -31,6 +31,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
     fun resetPlacedCards() {
         val game = rootService.currentGame
         checkNotNull(game)
+        game.passCount = 0
         if (game.drawPile.remainingCards.size >= 3) {
             game.placedCards = arrayListOf(
                 game.drawPile.draw(),
@@ -40,7 +41,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
         } else {
             throw IllegalStateException()
         }
-        onAllRefreshables { /*refreshAfterPlacedCardsChange() */ }
+        onAllRefreshables { refreshAfterPlacedCardsChange() }
     }
 
 
@@ -51,9 +52,10 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
         val game = rootService.currentGame
         checkNotNull(game)
         game.nextPlayer()
-        return (((game.passCount == game.players.size)
-                && (game.drawPile.remainingCards.size < 3))
-                || game.currentPlayer.hasKnocked)
+        onAllRefreshables { refreshAfterPlayerStateChange(game.currentPlayer) }
+        return (
+                ((game.passCount == game.players.size) && (game.drawPile.remainingCards.size < 3))
+                        || game.currentPlayer.hasKnocked)
     }
 
     /***
@@ -62,11 +64,8 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
     fun endGame() {
         val game = rootService.currentGame
         checkNotNull(game)
-        for (i in 0..(game.players.size - 1)) {
-            game.players[i].points = game.players[i].calculate()
-        }
-        game.players.sortedWith(compareBy { it.points })
-        onAllRefreshables { /*refreshAfterEndGame()*/ }
+        game.players = game.players.sortedByDescending { it.points }
+        onAllRefreshables { refreshAfterEndGame() }
         rootService.currentGame = null
     }
 }

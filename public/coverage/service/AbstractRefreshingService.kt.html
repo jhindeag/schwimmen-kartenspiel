@@ -2,9 +2,9 @@
 
 import view.Refreshable
 
-<span class="nc" id="L5">abstract class AbstractRefreshingService {</span>
+<span class="fc" id="L5">abstract class AbstractRefreshingService {</span>
 
-<span class="nc" id="L7">    private val refreshable = mutableListOf&lt;Refreshable&gt;()</span>
+<span class="fc" id="L7">    private val refreshable = mutableListOf&lt;Refreshable&gt;()</span>
 
     /**
      * adds a [Refreshable] to the list that gets called
@@ -15,7 +15,7 @@ import view.Refreshable
 <span class="nc" id="L15">    }</span>
 
     fun onAllRefreshables(method: Refreshable.() -&gt; Unit) =
-<span class="nc" id="L18">        refreshable.forEach { it.method() }</span>
+<span class="pc" id="L18">        refreshable.forEach { it.method() }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

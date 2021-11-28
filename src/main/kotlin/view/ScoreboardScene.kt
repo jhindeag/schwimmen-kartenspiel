@@ -4,18 +4,17 @@ import service.RootService
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.core.Alignment
-import tools.aqua.bgw.core.BoardGameScene
+import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
-class EndGameScene(val rootService: RootService) : BoardGameScene(500, 500), Refreshable {
+class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refreshable {
 
     private val winnerLabel = Label(
         width = 500,
         height = 40,
         posX = 0,
         posY = 50,
-        text = "is the WINNER!",
         font = Font(size = 30)
     )
 
@@ -24,7 +23,7 @@ class EndGameScene(val rootService: RootService) : BoardGameScene(500, 500), Ref
         posY = 150,
         width = 180,
         height = 50,
-        text = "Alex",
+        text = "",
         font = Font(size = 20),
         alignment = Alignment.CENTER_LEFT
     )
@@ -34,7 +33,7 @@ class EndGameScene(val rootService: RootService) : BoardGameScene(500, 500), Ref
         posY = 200,
         width = 180,
         height = 50,
-        text = "Bertha",
+        text = "",
         font = Font(size = 20),
         alignment = Alignment.CENTER_LEFT
     )
@@ -59,7 +58,7 @@ class EndGameScene(val rootService: RootService) : BoardGameScene(500, 500), Ref
         alignment = Alignment.CENTER_LEFT
     )
 
-    private val newGame = Button(
+    val newGame = Button(
         posX = 35,
         posY = 420,
         width = 180,
@@ -69,11 +68,7 @@ class EndGameScene(val rootService: RootService) : BoardGameScene(500, 500), Ref
         Alignment.CENTER,
         isWrapText = true,
         visual = ColorVisual.GREEN
-    ).apply {
-        onMouseClicked = {
-            super.refreshAfterEndGame()
-        }
-    }
+    )
 
     private val quitGame = Button(
         posX = 285,
@@ -95,5 +90,32 @@ class EndGameScene(val rootService: RootService) : BoardGameScene(500, 500), Ref
         opacity = 0.5
         background = ColorVisual(108, 168, 59)
         addComponents(winnerLabel, player1, player2, player3, player4, newGame, quitGame)
+    }
+
+    override fun refreshAfterEndGame() {
+        val game = rootService.currentGame
+        checkNotNull(game)
+        var winners = game.players[0].name
+        var winnersCounter = 1
+        for (i in 1 until game.players.size) {
+            if (game.players[i].points == game.players[0].points) {
+                winners += ", ${game.players[i].name}"
+                winnersCounter++
+            }
+        }
+        if (winnersCounter == game.players.size) {
+            winnerLabel.text = "Round DRAW!"
+        } else {
+            winnerLabel.text = "$winners is/are the WINNER!"
+        }
+        player1.text = "${game.players[0]}: ${game.players[0].points}"
+        player2.text = "${game.players[1]}: ${game.players[1].points}"
+        if (game.players.size == 3) {
+            player3.text = "${game.players[2]}: ${game.players[2].points}"
+        }
+        if (game.players.size == 4) {
+            player3.text = "${game.players[2]}: ${game.players[2].points}"
+            player4.text = "${game.players[3]}: ${game.players[3].points}"
+        }
     }
 }
