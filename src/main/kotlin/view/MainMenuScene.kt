@@ -20,7 +20,7 @@ class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVis
         font = Font(size = 50)
     )
 
-    private val player1: TextField = TextField(
+    private val player1 = TextField(
         posX = 50,
         posY = 150,
         width = 180,
@@ -28,13 +28,9 @@ class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVis
         text = "Alex",
         prompt = "Player 1",
         font = Font(size = 20)
-    ).apply {
-        onKeyTyped = {
-            startGame.isDisabled = player2.text.isBlank() || this.text.isBlank()
-        }
-    }
+    )
 
-    private val player2: TextField = TextField(
+    private val player2 = TextField(
         posX = 270,
         posY = 150,
         width = 180,
@@ -42,12 +38,7 @@ class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVis
         text = "Bertha",
         prompt = "Player 2",
         font = Font(size = 20)
-    ).apply {
-        onKeyTyped = {
-            startGame.isDisabled = player1.text.isBlank() || this.text.isBlank()
-        }
-    }
-
+    )
 
     private val player3 = TextField(
         posX = 50,
@@ -85,20 +76,20 @@ class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVis
             if (player3.text == "") {
                 if (player4.text == "") {
                     rootService.mainMenuService.startGame(
-                        player1.text.trim(), player2.text.trim(), null, null
+                        player1.text, player2.text, null, null
                     )
                 } else {
                     rootService.mainMenuService.startGame(
-                        player1.text.trim(), player2.text.trim(), null, player4.text.trim()
+                        player1.text, player2.text, null, player4.text
                     )
                 }
             } else if (player4.text == "") {
                 rootService.mainMenuService.startGame(
-                    player1.text.trim(), player2.text.trim(), player3.text.trim(), null
+                    player1.text, player2.text, player3.text, null
                 )
             } else {
                 rootService.mainMenuService.startGame(
-                    player1.text.trim(), player2.text.trim(), player3.text.trim(), player4.text.trim()
+                    player1.text, player2.text, player3.text, player4.text
                 )
             }
         }

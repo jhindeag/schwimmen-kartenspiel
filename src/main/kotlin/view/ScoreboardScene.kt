@@ -103,12 +103,10 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
                 winnersCounter++
             }
         }
-        if (winnersCounter == 1) {
-            winnerLabel.text = "$winners is the WINNER!"
-        } else if (winnersCounter == game.players.size) {
+        if (winnersCounter == game.players.size) {
             winnerLabel.text = "Round DRAW!"
         } else {
-            winnerLabel.text = "$winners are the WINNERS!"
+            winnerLabel.text = "$winners is/are the WINNER!"
         }
         player1.text = "${game.players[0]}: ${game.players[0].points}"
         player2.text = "${game.players[1]}: ${game.players[1].points}"
