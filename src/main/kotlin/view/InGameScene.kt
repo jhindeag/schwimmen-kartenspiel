@@ -5,7 +5,6 @@ import entity.CardImageLoader
 import entity.DrawPile
 import entity.Player
 import service.RootService
-import tools.aqua.bgw.components.container.LinearLayout
 import tools.aqua.bgw.components.gamecomponentviews.CardView
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
@@ -61,13 +60,6 @@ class InGameScene(private val rootService: RootService) :
         height = 200 * 1.5,
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
-    )
-    private var hand = LinearLayout<CardView>(
-        posX = 800,
-        posY = 630,
-        width = 200,
-        height = 130,
-        spacing = -100
     )
     private var hand1 = CardView(
         posX = 800,
