@@ -5,6 +5,7 @@ import entity.CardImageLoader
 import entity.DrawPile
 import entity.Player
 import service.RootService
+import tools.aqua.bgw.components.container.LinearLayout
 import tools.aqua.bgw.components.gamecomponentviews.CardView
 import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
@@ -16,13 +17,14 @@ import tools.aqua.bgw.visual.ColorVisual
 import tools.aqua.bgw.visual.ImageVisual
 import tools.aqua.bgw.visual.Visual
 
-class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1080), Refreshable {
+class InGameScene(private val rootService: RootService) :
+    BoardGameScene(1920, 1080), Refreshable {
     private val currentPlayer = Label(
         posX = 100,
         posY = 100,
         width = 500,
         height = 50,
-        text = "Current player: ${rootService.currentGame?.currentPlayer}",
+        text = "",
         font = Font(size = 30),
         Alignment.CENTER_LEFT,
         isWrapText = true,
@@ -60,6 +62,13 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
+    private var hand = LinearLayout<CardView>(
+        posX = 800,
+        posY = 630,
+        width = 200,
+        height = 130,
+        spacing = -100
+    )
     private var hand1 = CardView(
         posX = 800,
         posY = 630,
@@ -67,11 +76,7 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
         height = 200,
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
-    ).apply {
-        onMouseClicked = {
-            rootService.mainMenuService.quitGame()
-        }
-    }
+    )
     private var hand2 = CardView(
         posX = 900,
         posY = 630,
@@ -138,14 +143,7 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
     init {
         background = ColorVisual(108, 168, 59)
         addComponents(
-            currentPlayer,
             drawPile,
-            hand1,
-            hand2,
-            hand3,
-            table1,
-            table2,
-            table3,
             pass,
             knock,
             takeAll
@@ -157,11 +155,7 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
         val game = rootService.currentGame
         checkNotNull(game)
         addComponents(
-            currentPlayer,
             drawPile,
-            hand1,
-            hand2,
-            hand3,
             table1,
             table2,
             table3,
@@ -169,7 +163,6 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
             knock,
             takeAll
         )
-        currentPlayer.text = "Current player: ${game.currentPlayer.name}"
         refreshAfterPlayerStateChange(game.currentPlayer)
     }
 
@@ -178,6 +171,7 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
         checkNotNull(game)
         val cardImageLoader = CardImageLoader()
         initializeCardMap(cardImageLoader)
+
         var temp = game.placedCards[0]
         checkNotNull(temp)
         table1 = cardMap.forward(temp)
@@ -191,40 +185,30 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
         table3 = cardMap.forward(temp)
 
         table1.showFront()
+        table1.resize(130 * 1.5, 200 * 1.5)
         table1.reposition(
             posX = 600,
             posY = 200
         )
-        table1.resize(130 * 1.5, 200 * 1.5)
 
         table2.showFront()
+        table2.resize(130 * 1.5, 200 * 1.5)
         table2.reposition(
             posX = 900,
             posY = 200,
         )
-        table2.resize(130 * 1.5, 200 * 1.5)
 
         table3.showFront()
+        table3.resize(130 * 1.5, 200 * 1.5)
         table3.reposition(
             posX = 1200,
             posY = 200,
         )
-        table3.resize(130 * 1.5, 200 * 1.5)
-        removeComponents(
-            table1,
-            table2,
-            table3,
-            currentPlayer
-        )
+
         table1.isDraggable = true
         table2.isDraggable = true
         table3.isDraggable = true
-        addComponents(
-            table1,
-            table2,
-            table3,
-            currentPlayer
-        )
+
         table1.dropAcceptor = { dragEvent ->
             when (dragEvent.draggedComponent) {
                 hand1, hand2, hand3 -> true
@@ -243,6 +227,7 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
                 else -> false
             }
         }
+
         table1.onDragDropped = { dragEvent ->
             when (dragEvent.draggedComponent) {
                 hand1 -> rootService.actionService.tradeOne(
@@ -259,6 +244,7 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
                 )
             }
         }
+
         table2.onDragDropped = { dragEvent ->
             when (dragEvent.draggedComponent) {
                 hand1 -> rootService.actionService.tradeOne(
@@ -275,90 +261,80 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
                 )
             }
         }
+
         table3.onDragDropped = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                hand1 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[0]),
-                    checkNotNull(game.placedCards[2])
-                )
-                hand2 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[1]),
-                    checkNotNull(game.placedCards[2])
-                )
-                hand3 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[2]),
-                    checkNotNull(game.placedCards[2])
-                )
+            run {
+                when (dragEvent.draggedComponent) {
+                    hand1 -> rootService.actionService.tradeOne(
+                        checkNotNull(game.currentPlayer.hand[0]),
+                        checkNotNull(game.placedCards[2])
+                    )
+                    hand2 -> rootService.actionService.tradeOne(
+                        checkNotNull(game.currentPlayer.hand[1]),
+                        checkNotNull(game.placedCards[2])
+                    )
+                    hand3 -> rootService.actionService.tradeOne(
+                        checkNotNull(game.currentPlayer.hand[2]),
+                        checkNotNull(game.placedCards[2])
+                    )
+                }
             }
         }
-        table1.onDragGestureEnded = { _, success ->
-            if (success) {
-            }
-        }
-        table2.onDragGestureEnded = { _, success ->
-            if (success) {
-            }
-        }
-        table3.onDragGestureEnded = { _, success ->
-            if (success) {
-            }
-        }
+        removeComponents(
+            table1,
+            table2,
+            table3
+        )
+        addComponents(
+            table1,
+            table2,
+            table3
+        )
     }
 
     override fun refreshAfterPlayerStateChange(player: Player) {
         val game = rootService.currentGame
         checkNotNull(game)
-        currentPlayer.text = "Current player: ${game.currentPlayer.name}"
         val cardImageLoader = CardImageLoader()
         initializeCardMap(cardImageLoader)
 
-        var temp = game.currentPlayer.hand[0]
+        var temp = player.hand[0]
         checkNotNull(temp)
         hand1 = cardMap.forward(temp)
 
-        temp = game.currentPlayer.hand[1]
+        temp = player.hand[1]
         checkNotNull(temp)
         hand2 = cardMap.forward(temp)
 
-        temp = game.currentPlayer.hand[2]
+        temp = player.hand[2]
         checkNotNull(temp)
         hand3 = cardMap.forward(temp)
 
         hand1.showFront()
+        hand1.resize(130, 200)
         hand1.reposition(
             posX = 800,
             posY = 630
         )
-        hand1.resize(130, 200)
 
         hand2.showFront()
+        hand2.resize(130, 200)
         hand2.reposition(
             posX = 900,
             posY = 630,
         )
-        hand2.resize(130, 200)
 
         hand3.showFront()
+        hand3.resize(130, 200)
         hand3.reposition(
             posX = 1000,
             posY = 630,
         )
-        hand3.resize(130, 200)
-        removeComponents(
-            hand1,
-            hand2,
-            hand3,
-            currentPlayer
-        )
+
         hand1.isDraggable = true
         hand2.isDraggable = true
         hand3.isDraggable = true
-        addComponents(
-            hand1,
-            hand2,
-            hand3,
-            currentPlayer
-        )
+        currentPlayer.text = "Current player: ${player.name}"
         hand1.dropAcceptor = { dragEvent ->
             when (dragEvent.draggedComponent) {
                 table1, table2, table3 -> true
@@ -377,66 +353,70 @@ class InGameScene(private val rootService: RootService) : BoardGameScene(1920, 1
                 else -> false
             }
         }
+
         hand1.onDragDropped = { dragEvent ->
             when (dragEvent.draggedComponent) {
                 table1 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[0]),
+                    checkNotNull(player.hand[0]),
                     checkNotNull(game.placedCards[0])
                 )
                 table2 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[0]),
+                    checkNotNull(player.hand[0]),
                     checkNotNull(game.placedCards[1])
                 )
                 table3 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[0]),
+                    checkNotNull(player.hand[0]),
                     checkNotNull(game.placedCards[2])
                 )
             }
         }
+
         hand2.onDragDropped = { dragEvent ->
             when (dragEvent.draggedComponent) {
                 table1 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[1]),
+                    checkNotNull(player.hand[1]),
                     checkNotNull(game.placedCards[0])
                 )
                 table2 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[1]),
+                    checkNotNull(player.hand[1]),
                     checkNotNull(game.placedCards[1])
                 )
                 table3 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[1]),
+                    checkNotNull(player.hand[1]),
                     checkNotNull(game.placedCards[2])
                 )
             }
         }
+
         hand3.onDragDropped = { dragEvent ->
             when (dragEvent.draggedComponent) {
                 table1 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[2]),
+                    checkNotNull(player.hand[2]),
                     checkNotNull(game.placedCards[0])
                 )
                 table2 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[2]),
+                    checkNotNull(player.hand[2]),
                     checkNotNull(game.placedCards[1])
                 )
                 table3 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[2]),
+                    checkNotNull(player.hand[2]),
                     checkNotNull(game.placedCards[2])
                 )
             }
         }
-        hand1.onDragGestureEnded = { _, success ->
-            if (success) {
-            }
-        }
-        hand2.onDragGestureEnded = { _, success ->
-            if (success) {
-            }
-        }
-        hand3.onDragGestureEnded = { _, success ->
-            if (success) {
-            }
-        }
+
+        removeComponents(
+            hand1,
+            hand2,
+            hand3,
+            currentPlayer
+        )
+        addComponents(
+            hand1,
+            hand2,
+            hand3,
+            currentPlayer
+        )
     }
 
     override fun refreshAfterEndGame() {
