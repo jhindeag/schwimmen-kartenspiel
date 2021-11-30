@@ -20,6 +20,7 @@ internal class ActionServiceTest {
         return rootService
     }
 
+
     /***
      * Test for the function pass
      */
@@ -44,8 +45,8 @@ internal class ActionServiceTest {
         val rootService = setUpGame()
         val game = rootService.currentGame
         checkNotNull(game)
-        //32 - 3 * 3 = 23 Cards left in draw pile
-        for (i in 0..20) {
+        //32 - 3 - 3 * 3 = 20 Cards left in draw pile
+        for (i in 0..10) {
             game.drawPile.draw()
         }
         //It should have less than 3 cards in draw pile now

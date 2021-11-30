@@ -20,12 +20,12 @@ import kotlin.system.exitProcess
      */
     fun startGame(p1: String, p2: String, p3: String?, p4: String?) {
         val game: Game?
-<span class="pc bpc" id="L23" title="3 of 4 branches missed.">        if (p4 == null &amp;&amp; p3 != null) {</span>
-<span class="nc" id="L24">            game = Game(</span>
-<span class="nc" id="L25">                listOf(</span>
-<span class="nc" id="L26">                    Player(p1),</span>
-<span class="nc" id="L27">                    Player(p2),</span>
-<span class="nc" id="L28">                    Player(p3)</span>
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">        if (p4 == null &amp;&amp; p3 != null) {</span>
+<span class="fc" id="L24">            game = Game(</span>
+<span class="fc" id="L25">                listOf(</span>
+<span class="fc" id="L26">                    Player(p1),</span>
+<span class="fc" id="L27">                    Player(p2),</span>
+<span class="fc" id="L28">                    Player(p3)</span>
                 )
             )
 <span class="pc bpc" id="L31" title="2 of 4 branches missed.">        } else if (p4 != null &amp;&amp; p3 == null) {</span>

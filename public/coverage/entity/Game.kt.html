@@ -12,10 +12,10 @@
      * Wenn es schon genug Spieler gibt, wird die Reihenfolge von Spielern gemischt.
      */
 <span class="fc" id="L14">    init {</span>
-<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        if (players.size &lt; 2) {</span>
-<span class="nc" id="L16">            throw IllegalArgumentException(&quot;Es gibt zu wenig Spieler&quot;)</span>
-<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        } else if (players.size &gt; 4) {</span>
-<span class="nc" id="L18">            throw IllegalArgumentException(&quot;Es gibt zu viele Spieler&quot;)</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (players.size &lt; 2) {</span>
+<span class="fc" id="L16">            throw IllegalArgumentException(&quot;Es gibt zu wenig Spieler&quot;)</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        } else if (players.size &gt; 4) {</span>
+<span class="fc" id="L18">            throw IllegalArgumentException(&quot;Es gibt zu viele Spieler&quot;)</span>
         }
 <span class="fc" id="L20">        players = players.shuffled()</span>
 <span class="fc" id="L21">        ite = players.iterator()</span>

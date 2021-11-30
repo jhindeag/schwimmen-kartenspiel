@@ -22,9 +22,9 @@ import kotlin.math.max
 <span class="fc" id="L22">        var maxHearts = 0.0</span>
 <span class="fc" id="L23">        var maxDiamonds = 0.0</span>
 <span class="pc bpc" id="L24" title="2 of 6 branches missed.">        if ((checkNotNull(hand[0]).cardValue == checkNotNull(hand[1]).cardValue)</span>
-<span class="pc bpc" id="L25" title="3 of 6 branches missed.">            &amp;&amp; (checkNotNull(hand[0]).cardValue == checkNotNull(hand[2]).cardValue)</span>
+<span class="pc bpc" id="L25" title="2 of 6 branches missed.">            &amp;&amp; (checkNotNull(hand[0]).cardValue == checkNotNull(hand[2]).cardValue)</span>
         ) {
-<span class="nc" id="L27">            return 30.5</span>
+<span class="fc" id="L27">            return 30.5</span>
         } else {
 <span class="fc bfc" id="L29" title="All 2 branches covered.">            for (i in 0..2) {</span>
 <span class="pc bpc" id="L30" title="2 of 7 branches missed.">                when (checkNotNull(hand[i]).cardSuit) {</span>
@@ -53,7 +53,7 @@ import kotlin.math.max
      * @return einen String mit Information von drei Karten
      */
     override fun toString(): String {
-<span class="nc" id="L56">        return this.name</span>
+<span class="fc" id="L56">        return this.name</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
