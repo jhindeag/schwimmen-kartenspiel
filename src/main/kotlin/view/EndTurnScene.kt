@@ -15,6 +15,7 @@ import tools.aqua.bgw.visual.Visual
  * The next player will have to confirm before starting their turn
  */
 class EndTurnScene(val rootService: RootService) : MenuScene(500, 500), Refreshable {
+
     private val nextPlayer = Label(
         width = 500,
         height = 500,
@@ -23,6 +24,7 @@ class EndTurnScene(val rootService: RootService) : MenuScene(500, 500), Refresha
         alignment = Alignment.CENTER,
         visual = Visual.EMPTY
     )
+
     val confirm = Button(
         posX = 150,
         posY = 350,

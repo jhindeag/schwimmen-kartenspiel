@@ -1,6 +1,7 @@
 package view
 
 import entity.CardImageLoader
+import entity.Game
 import entity.Player
 import service.RootService
 import tools.aqua.bgw.components.gamecomponentviews.CardView
@@ -19,6 +20,7 @@ import tools.aqua.bgw.visual.Visual
  */
 class InGameScene(private val rootService: RootService) :
     BoardGameScene(1920, 1080), Refreshable {
+
     private val currentPlayer = Label(
         posX = 100,
         posY = 100,
@@ -30,6 +32,7 @@ class InGameScene(private val rootService: RootService) :
         isWrapText = true,
         visual = Visual.EMPTY
     )
+
     private val drawPile = CardView(
         posX = 200,
         posY = 200,
@@ -38,6 +41,8 @@ class InGameScene(private val rootService: RootService) :
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
+
+    //table takes control over all CardView from table1 to table3
     private var table = ArrayList<CardView>(3)
     private var table1 = CardView(
         posX = 600,
@@ -63,6 +68,8 @@ class InGameScene(private val rootService: RootService) :
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
+
+    //hand takes control over all CardView from hand1 to hand3
     private var hand = ArrayList<CardView>(3)
     private var hand1 = CardView(
         posX = 800,
@@ -88,12 +95,16 @@ class InGameScene(private val rootService: RootService) :
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
+
+    //Attributes for tradeOne with mouse clicks
     private val readyToTrade: Boolean
         get() = readyHand && readyTable
     private var readyHand = false
     private var handToTrade = -1
     private var readyTable = false
     private var tableToTrade = -1
+
+    //actions take control over all Button of the three actions
     val actions = ArrayList<Button>(3)
     private val pass = Button(
         posX = 1500,
@@ -175,6 +186,9 @@ class InGameScene(private val rootService: RootService) :
             knock,
             takeAll
         )
+        initializeHand(game)
+        initializeTable(game)
+        resetTradeAttributes()
         actions.addAll(listOf(pass, knock, takeAll))
     }
 
@@ -205,45 +219,6 @@ class InGameScene(private val rootService: RootService) :
                 posX = 600 + 300 * i,
                 posY = 200
             )
-            table[i].isDraggable = true
-            table[i].dropAcceptor = { dragEvent ->
-                when (dragEvent.draggedComponent) {
-                    hand1, hand2, hand3 -> true
-                    else -> false
-                }
-            }
-            table[i].onDragDropped = { dragEvent ->
-                rootService.actionService.tradeOne(
-                    checkNotNull(
-                        game.currentPlayer.hand[
-                                hand.indexOf(dragEvent.draggedComponent)]
-                    ),
-                    checkNotNull(game.placedCards[i])
-                )
-            }
-            table[i].apply {
-                onMouseClicked = {
-                    if (!readyTable) {
-                        readyTable = true
-                        tableToTrade = i
-                        table.forEach {
-                            it.reposition(posY = 200, posX = it.posX)
-                        }
-                        table[i].reposition(posY = 150, posX = table[i].posX)
-                        if (readyToTrade) {
-                            readyTable = false
-                            readyHand = false
-                            rootService.actionService.tradeOne(
-                                checkNotNull(game.currentPlayer.hand[handToTrade]),
-                                checkNotNull(game.placedCards[tableToTrade])
-                            )
-                        }
-                    } else {
-                        readyTable = false
-                        table[i].reposition(posY = 200, posX = table[i].posX)
-                    }
-                }
-            }
         }
     }
 
@@ -279,6 +254,69 @@ class InGameScene(private val rootService: RootService) :
                 posX = 800 + 100 * i,
                 posY = 630
             )
+        }
+        currentPlayer.text = "Current player: ${player.name}"
+    }
+
+    private fun resetTradeAttributes() {
+        readyHand = false
+        handToTrade = -1
+        readyTable = false
+        tableToTrade = -1
+    }
+
+    //initialize the cards on table for tradeOne
+    private fun initializeTable(game: Game) {
+        for (i in 0 until game.placedCards.size) {
+
+            table[i].isDraggable = true
+            table[i].dropAcceptor = { dragEvent ->
+                when (dragEvent.draggedComponent) {
+                    hand1, hand2, hand3 -> true
+                    else -> false
+                }
+            }
+
+            table[i].onDragDropped = { dragEvent ->
+                rootService.actionService.tradeOne(
+                    checkNotNull(
+                        game.currentPlayer.hand[
+                                hand.indexOf(dragEvent.draggedComponent)]
+                    ),
+                    checkNotNull(game.placedCards[i])
+                )
+            }
+
+            table[i].apply {
+                onMouseClicked = {
+                    if (readyTable && tableToTrade == i) {
+                        readyTable = false
+                        table[i].reposition(posY = 200, posX = table[i].posX)
+                    } else {
+                        readyTable = true
+                        tableToTrade = i
+                        table.forEach {
+                            it.reposition(posY = 200, posX = it.posX)
+                        }
+                        table[i].reposition(posY = 150, posX = table[i].posX)
+                        if (readyToTrade) {
+                            readyTable = false
+                            readyHand = false
+                            rootService.actionService.tradeOne(
+                                checkNotNull(game.currentPlayer.hand[handToTrade]),
+                                checkNotNull(game.placedCards[tableToTrade])
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //initialize the cards on hand for tradeOne
+    private fun initializeHand(game: Game) {
+        for (i in 0..2) {
+
             hand[i].isDraggable = true
             hand[i].dropAcceptor = { dragEvent ->
                 when (dragEvent.draggedComponent) {
@@ -286,6 +324,7 @@ class InGameScene(private val rootService: RootService) :
                     else -> false
                 }
             }
+
             hand[i].onDragDropped = { dragEvent ->
                 rootService.actionService.tradeOne(
                     checkNotNull(
@@ -294,9 +333,13 @@ class InGameScene(private val rootService: RootService) :
                     checkNotNull(game.placedCards[table.indexOf(dragEvent.draggedComponent)])
                 )
             }
+
             hand[i].apply {
                 onMouseClicked = {
-                    if (!readyHand) {
+                    if (readyHand && handToTrade == i) {
+                        readyHand = false
+                        hand[i].reposition(posY = 630, posX = hand[i].posX)
+                    } else {
                         readyHand = true
                         handToTrade = i
                         hand.forEach {
@@ -307,17 +350,13 @@ class InGameScene(private val rootService: RootService) :
                             readyTable = false
                             readyHand = false
                             rootService.actionService.tradeOne(
-                                checkNotNull(player.hand[handToTrade]),
+                                checkNotNull(game.currentPlayer.hand[handToTrade]),
                                 checkNotNull(game.placedCards[tableToTrade])
                             )
                         }
-                    } else {
-                        readyHand = false
-                        hand[i].reposition(posY = 630, posX = hand[i].posX)
                     }
                 }
             }
         }
-        currentPlayer.text = "Current player: ${player.name}"
     }
 }

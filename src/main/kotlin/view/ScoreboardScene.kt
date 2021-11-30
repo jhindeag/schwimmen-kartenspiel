@@ -23,6 +23,56 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
         font = Font(size = 30)
     )
 
+    private val points = Label(
+        posX = 350,
+        posY = 100,
+        width = 300,
+        height = 50,
+        text = "Points",
+        font = Font(size = 20),
+        alignment = Alignment.CENTER_LEFT
+    )
+
+    private val p1Points = Label(
+        posX = 350,
+        posY = 150,
+        width = 300,
+        height = 50,
+        text = "",
+        font = Font(size = 20),
+        alignment = Alignment.CENTER_LEFT
+    )
+
+    private val p2Points = Label(
+        posX = 350,
+        posY = 200,
+        width = 300,
+        height = 50,
+        text = "",
+        font = Font(size = 20),
+        alignment = Alignment.CENTER_LEFT
+    )
+
+    private val p3Points = Label(
+        posX = 350,
+        posY = 250,
+        width = 300,
+        height = 50,
+        text = "",
+        font = Font(size = 20),
+        alignment = Alignment.CENTER_LEFT
+    )
+
+    private val p4Points = Label(
+        posX = 350,
+        posY = 300,
+        width = 100,
+        height = 50,
+        text = "",
+        font = Font(size = 20),
+        alignment = Alignment.CENTER_LEFT
+    )
+
     private val player1 = Label(
         posX = 50,
         posY = 150,
@@ -94,9 +144,23 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
     init {
         opacity = 0.5
         background = ColorVisual(108, 168, 59)
-        addComponents(winnerLabel, player1, player2, player3, player4, newGame, quitGame)
+        addComponents(
+            winnerLabel,
+            player1,
+            player2,
+            player3,
+            player4,
+            points,
+            p1Points,
+            p2Points,
+            p3Points,
+            p4Points,
+            newGame,
+            quitGame
+        )
     }
-
+    //it is calculated here, who are the winners and the scoreboard will be
+    //shown corresponding to the scores
     override fun refreshAfterEndGame() {
         val game = rootService.currentGame
         checkNotNull(game)
@@ -119,16 +183,23 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
                 winnerLabel.text = "$winners are the WINNERS!"
             }
         }
-        player1.text = "${game.players[0]}: ${game.players[0].points} Points"
-        player2.text = "${game.players[1]}: ${game.players[1].points} Points"
+        player1.text = "${game.players[0]}:"
+        p1Points.text = "${game.players[0].points}"
+        player2.text = "${game.players[1]}:"
+        p2Points.text = "${game.players[1].points}"
         player3.text = ""
+        p3Points.text = ""
         player4.text = ""
+        p4Points.text = ""
         if (game.players.size == 3) {
-            player3.text = "${game.players[2]}: ${game.players[2].points} Points"
+            player3.text = "${game.players[2]}:"
+            p3Points.text = "${game.players[2].points}"
         }
         if (game.players.size == 4) {
-            player3.text = "${game.players[2]}: ${game.players[2].points} Points"
-            player4.text = "${game.players[3]}: ${game.players[3].points} Points"
+            player3.text = "${game.players[2]}:"
+            p3Points.text = "${game.players[2].points}"
+            player4.text = "${game.players[3]}: ${game.players[3].points}"
+            p4Points.text = "${game.players[3].points}"
         }
     }
 }
