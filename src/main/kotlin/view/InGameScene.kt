@@ -2,7 +2,6 @@ package view
 
 import entity.Card
 import entity.CardImageLoader
-import entity.DrawPile
 import entity.Player
 import service.RootService
 import tools.aqua.bgw.components.gamecomponentviews.CardView
@@ -87,7 +86,6 @@ class InGameScene(private val rootService: RootService) :
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
-    private val cardMap: BidirectionalMap<Card, CardView> = BidirectionalMap()
     private val readyToTrade: Boolean
         get() = readyHand && readyTable
     private var readyHand = false
@@ -182,7 +180,6 @@ class InGameScene(private val rootService: RootService) :
         val game = rootService.currentGame
         checkNotNull(game)
         val cardImageLoader = CardImageLoader()
-        initializeCardMap(cardImageLoader)
 
         var temp = game.placedCards[0]
         checkNotNull(temp)
@@ -199,7 +196,7 @@ class InGameScene(private val rootService: RootService) :
         table.clear()
         table.addAll(listOf(table1, table2, table3))
 
-        for (i in 0..table.size - 1) {
+        for (i in 0 until table.size) {
             table[i].showFront()
             table[i].resize(130 * 1.5, 200 * 1.5)
             table[i].reposition(
@@ -248,7 +245,6 @@ class InGameScene(private val rootService: RootService) :
         val game = rootService.currentGame
         checkNotNull(game)
         val cardImageLoader = CardImageLoader()
-        initializeCardMap(cardImageLoader)
 
         var temp = player.hand[0]
         checkNotNull(temp)
@@ -265,7 +261,7 @@ class InGameScene(private val rootService: RootService) :
         hand.clear()
         hand.addAll(listOf(hand1, hand2, hand3))
 
-        for (i in 0..hand.size - 1) {
+        for (i in 0 until hand.size) {
             hand[i].showFront()
             hand[i].resize(130, 200)
             hand[i].reposition(
@@ -308,19 +304,4 @@ class InGameScene(private val rootService: RootService) :
         }
         currentPlayer.text = "Current player: ${player.name}"
     }
-
-    private fun initializeCardMap(cardImageLoader: CardImageLoader) {
-        val drawPile = DrawPile()
-        drawPile.remainingCards.peekAll().forEach { card ->
-            val cardView = CardView(
-                height = 200,
-                width = 130,
-                front = ImageVisual(cardImageLoader.frontImageFor(card.cardSuit, card.cardValue)),
-                back = ImageVisual(cardImageLoader.backImage)
-            )
-            cardMap.add(card to cardView)
-        }
-    }
-
-
 }

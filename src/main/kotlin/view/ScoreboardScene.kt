@@ -112,6 +112,8 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
         }
         player1.text = "${game.players[0]}: ${game.players[0].points} Points"
         player2.text = "${game.players[1]}: ${game.players[1].points} Points"
+        player3.text = ""
+        player4.text = ""
         if (game.players.size == 3) {
             player3.text = "${game.players[2]}: ${game.players[2].points} Points"
         }
