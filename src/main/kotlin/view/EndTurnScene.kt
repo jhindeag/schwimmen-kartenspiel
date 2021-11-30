@@ -10,6 +10,10 @@ import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 import tools.aqua.bgw.visual.Visual
 
+/**
+ * EndTurnScene is shown, when a player finished their turn
+ * The next player will have to confirm before starting their turn
+ */
 class EndTurnScene(val rootService: RootService) : MenuScene(500, 500), Refreshable {
     private val nextPlayer = Label(
         width = 500,

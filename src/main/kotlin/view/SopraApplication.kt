@@ -4,6 +4,10 @@ import entity.Player
 import service.RootService
 import tools.aqua.bgw.core.BoardGameApplication
 
+/**
+ * this class manipulates the scenes according to the actions
+ * were taken in-game
+ */
 class SopraApplication : BoardGameApplication("Schwimmen"), Refreshable {
     private val rootService = RootService()
     private val mainMenuScene = MainMenuScene(rootService)

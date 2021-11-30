@@ -1,5 +1,8 @@
 package entity
 
+/**
+ * this class defines the attributes of a card
+ */
 data class Card(val cardSuit: CardSuit, val cardValue: CardValue) {
     /**
      * Die Methode veranschaulicht eine Karte unter einem String

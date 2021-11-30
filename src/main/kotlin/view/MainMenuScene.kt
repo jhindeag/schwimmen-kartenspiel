@@ -9,6 +9,10 @@ import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
+/**
+ * MainMenuScene is shown as the first scene when the application runs
+ * The players can be added here, and have their names adjusted
+ */
 class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVisual.WHITE), Refreshable {
 
     private val helloLabel = Label(

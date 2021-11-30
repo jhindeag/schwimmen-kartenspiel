@@ -2,6 +2,10 @@ package entity
 
 import tools.aqua.bgw.util.Stack
 
+/**
+ * this class defines the skat draw pile with 32 cards
+ * and the method to draw cards
+ */
 class DrawPile {
     val remainingCards: Stack<Card> = Stack()
 

@@ -13,6 +13,10 @@ import tools.aqua.bgw.visual.ColorVisual
 import tools.aqua.bgw.visual.ImageVisual
 import tools.aqua.bgw.visual.Visual
 
+/**
+ * InGameScene offers an interface, so that the players can play the game
+ * and make their moves
+ */
 class InGameScene(private val rootService: RootService) :
     BoardGameScene(1920, 1080), Refreshable {
     private val currentPlayer = Label(

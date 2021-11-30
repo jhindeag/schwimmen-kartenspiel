@@ -8,6 +8,11 @@ import tools.aqua.bgw.core.MenuScene
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 
+/**
+ * ScoreboardScene is shown at the end of the game
+ * it can be seen, who has won the game and
+ * also the current points of the other players
+ */
 class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refreshable {
 
     private val winnerLabel = Label(

@@ -1,5 +1,11 @@
 package entity
 
+/**
+ * this class has all the information needed for a game
+ * to be initialized and to progress
+ *
+ * @param players list of players who take part in the game
+ */
 class Game(var players:List<Player>) {
     var passCount = 0
     var currentPlayer: Player = players[0]
