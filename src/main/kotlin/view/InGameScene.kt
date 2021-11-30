@@ -145,6 +145,32 @@ class InGameScene(private val rootService: RootService) :
         background = ColorVisual(108, 168, 59)
         addComponents(
             drawPile,
+            currentPlayer,
+            hand1,
+            hand2,
+            hand3,
+            table1,
+            table2,
+            table3,
+            pass,
+            knock,
+            takeAll
+        )
+    }
+
+    override fun refreshAfterStartGame() {
+        val game = rootService.currentGame
+        checkNotNull(game)
+        clearComponents()
+        addComponents(
+            drawPile,
+            currentPlayer,
+            hand1,
+            hand2,
+            hand3,
+            table1,
+            table2,
+            table3,
             pass,
             knock,
             takeAll
@@ -152,124 +178,7 @@ class InGameScene(private val rootService: RootService) :
         actions.addAll(listOf(pass, knock, takeAll))
     }
 
-    override fun refreshAfterStartGame() {
-        val game = rootService.currentGame
-        checkNotNull(game)
-        removeComponents(
-            drawPile,
-            pass,
-            knock,
-            takeAll
-        )
-        addComponents(
-            drawPile,
-            pass,
-            knock,
-            takeAll
-        )
-    }
-
     override fun refreshAfterPlacedCardsChange() {
-        initializeTable()
-        table.forEach {
-            removeComponents(it)
-            addComponents(it)
-        }
-    }
-
-    override fun refreshAfterPlayerStateChange(player: Player) {
-        initializeHand(player)
-        currentPlayer.text = "Current player: ${player.name}"
-        removeComponents(currentPlayer)
-        addComponents(currentPlayer)
-        hand.forEach {
-            removeComponents(it)
-            addComponents(it)
-        }
-    }
-
-    override fun refreshAfterEndGame() {
-        clearComponents()
-    }
-
-    private fun initializeCardMap(cardImageLoader: CardImageLoader) {
-        val drawPile = DrawPile()
-        drawPile.remainingCards.peekAll().forEach { card ->
-            val cardView = CardView(
-                height = 200,
-                width = 130,
-                front = ImageVisual(cardImageLoader.frontImageFor(card.cardSuit, card.cardValue)),
-                back = ImageVisual(cardImageLoader.backImage)
-            )
-            cardMap.add(card to cardView)
-        }
-    }
-
-    private fun initializeHand(player: Player) {
-        val game = rootService.currentGame
-        checkNotNull(game)
-        val cardImageLoader = CardImageLoader()
-        initializeCardMap(cardImageLoader)
-
-        var temp = player.hand[0]
-        checkNotNull(temp)
-        hand1 = cardMap.forward(temp)
-
-        temp = player.hand[1]
-        checkNotNull(temp)
-        hand2 = cardMap.forward(temp)
-
-        temp = player.hand[2]
-        checkNotNull(temp)
-        hand3 = cardMap.forward(temp)
-
-        hand.clear()
-        hand.addAll(listOf(hand1, hand2, hand3))
-
-        for (i in 0..hand.size - 1) {
-            hand[i].showFront()
-            hand[i].resize(130, 200)
-            hand[i].reposition(
-                posX = 800 + 100 * i,
-                posY = 630
-            )
-            hand[i].isDraggable = true
-            hand[i].dropAcceptor = { dragEvent ->
-                when (dragEvent.draggedComponent) {
-                    table1, table2, table3 -> true
-                    else -> false
-                }
-            }
-            hand[i].onDragDropped = { dragEvent ->
-                rootService.actionService.tradeOne(
-                    checkNotNull(
-                        game.currentPlayer.hand[i]
-                    ),
-                    checkNotNull(game.placedCards[table.indexOf(dragEvent.draggedComponent)])
-                )
-            }
-            hand[i].apply {
-                onMouseClicked = {
-                    readyHand = true
-                    handToTrade = i
-                    hand.forEach {
-                        it.reposition(posY = 630, posX = it.posX)
-                    }
-                    hand[i].reposition(posY = 600, posX = hand[i].posX)
-                    if (readyToTrade) {
-                        readyTable = false
-                        readyHand = false
-                        rootService.actionService.tradeOne(
-                            checkNotNull(player.hand[handToTrade]),
-                            checkNotNull(game.placedCards[tableToTrade])
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initializeTable() {
         val game = rootService.currentGame
         checkNotNull(game)
         val cardImageLoader = CardImageLoader()
@@ -277,15 +186,15 @@ class InGameScene(private val rootService: RootService) :
 
         var temp = game.placedCards[0]
         checkNotNull(temp)
-        table1 = cardMap.forward(temp)
+        table1.frontVisual = ImageVisual(cardImageLoader.frontImageFor(temp.cardSuit, temp.cardValue))
 
         temp = game.placedCards[1]
         checkNotNull(temp)
-        table2 = cardMap.forward(temp)
+        table2.frontVisual = ImageVisual(cardImageLoader.frontImageFor(temp.cardSuit, temp.cardValue))
 
         temp = game.placedCards[2]
         checkNotNull(temp)
-        table3 = cardMap.forward(temp)
+        table3.frontVisual = ImageVisual(cardImageLoader.frontImageFor(temp.cardSuit, temp.cardValue))
 
         table.clear()
         table.addAll(listOf(table1, table2, table3))
@@ -333,4 +242,85 @@ class InGameScene(private val rootService: RootService) :
             }
         }
     }
+
+
+    override fun refreshAfterPlayerStateChange(player: Player) {
+        val game = rootService.currentGame
+        checkNotNull(game)
+        val cardImageLoader = CardImageLoader()
+        initializeCardMap(cardImageLoader)
+
+        var temp = player.hand[0]
+        checkNotNull(temp)
+        hand1.frontVisual = ImageVisual(cardImageLoader.frontImageFor(temp.cardSuit, temp.cardValue))
+
+        temp = player.hand[1]
+        checkNotNull(temp)
+        hand2.frontVisual = ImageVisual(cardImageLoader.frontImageFor(temp.cardSuit, temp.cardValue))
+
+        temp = player.hand[2]
+        checkNotNull(temp)
+        hand3.frontVisual = ImageVisual(cardImageLoader.frontImageFor(temp.cardSuit, temp.cardValue))
+
+        hand.clear()
+        hand.addAll(listOf(hand1, hand2, hand3))
+
+        for (i in 0..hand.size - 1) {
+            hand[i].showFront()
+            hand[i].resize(130, 200)
+            hand[i].reposition(
+                posX = 800 + 100 * i,
+                posY = 630
+            )
+            hand[i].isDraggable = true
+            hand[i].dropAcceptor = { dragEvent ->
+                when (dragEvent.draggedComponent) {
+                    table1, table2, table3 -> true
+                    else -> false
+                }
+            }
+            hand[i].onDragDropped = { dragEvent ->
+                rootService.actionService.tradeOne(
+                    checkNotNull(
+                        game.currentPlayer.hand[i]
+                    ),
+                    checkNotNull(game.placedCards[table.indexOf(dragEvent.draggedComponent)])
+                )
+            }
+            hand[i].apply {
+                onMouseClicked = {
+                    readyHand = true
+                    handToTrade = i
+                    hand.forEach {
+                        it.reposition(posY = 630, posX = it.posX)
+                    }
+                    hand[i].reposition(posY = 600, posX = hand[i].posX)
+                    if (readyToTrade) {
+                        readyTable = false
+                        readyHand = false
+                        rootService.actionService.tradeOne(
+                            checkNotNull(player.hand[handToTrade]),
+                            checkNotNull(game.placedCards[tableToTrade])
+                        )
+                    }
+                }
+            }
+        }
+        currentPlayer.text = "Current player: ${player.name}"
+    }
+
+    private fun initializeCardMap(cardImageLoader: CardImageLoader) {
+        val drawPile = DrawPile()
+        drawPile.remainingCards.peekAll().forEach { card ->
+            val cardView = CardView(
+                height = 200,
+                width = 130,
+                front = ImageVisual(cardImageLoader.frontImageFor(card.cardSuit, card.cardValue)),
+                back = ImageVisual(cardImageLoader.backImage)
+            )
+            cardMap.add(card to cardView)
+        }
+    }
+
+
 }
