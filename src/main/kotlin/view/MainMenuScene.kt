@@ -82,14 +82,12 @@ class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVis
     ).apply {
         onMouseClicked = {
             rootService.currentGame = null
-            var p3: String?
-            var p4: String?
-            p3 = if (player3.text == "") {
+            val p3: String? = if (player3.text == "") {
                 null
             } else {
                 player3.text
             }
-            p4 = if (player4.text == "") {
+            val p4: String? = if (player4.text == "") {
                 null
             } else {
                 player4.text

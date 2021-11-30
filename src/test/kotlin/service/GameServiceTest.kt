@@ -25,9 +25,21 @@ internal class GameServiceTest {
         val rootService = setUpGame()
         val game = rootService.currentGame
         checkNotNull(game)
-        rootService.gameService.handOutCards()
-        //draw pile should be left with: 32 - 3*3 = 23 cards
-        assertEquals(23, game.drawPile.remainingCards.size)
+        //draw pile should be left with: 32 - 3 - 3*3 = 20 cards
+        assertEquals(20, game.drawPile.remainingCards.size)
+    }
+
+    /***
+     * Test the function hand out cards for all players with
+     * invalid game
+     */
+    @Test
+    fun handOutCards2() {
+        val rootService = RootService()
+        //there are no game available
+        assertFailsWith<IllegalStateException> {
+            rootService.gameService.handOutCards()
+        }
     }
 
     /***
@@ -57,11 +69,24 @@ internal class GameServiceTest {
         val rootService = setUpGame()
         val game = rootService.currentGame
         checkNotNull(game)
-        for (i in 0..30) {
+        for (i in 0..19) {
             game.drawPile.draw()
         }
         //the draw pile should have less than three cards to draw
-        assertFailsWith<IllegalStateException>() {
+        assertFailsWith<IllegalStateException> {
+            rootService.gameService.resetPlacedCards()
+        }
+    }
+
+    /***
+     * Test the function reset placed cards on the table with
+     * invalid game
+     */
+    @Test
+    fun resetPlacedCards3() {
+        val rootService = RootService()
+        //there are no game available
+        assertFailsWith<IllegalStateException> {
             rootService.gameService.resetPlacedCards()
         }
     }
@@ -101,8 +126,7 @@ internal class GameServiceTest {
         val rootService = setUpGame()
         val game = rootService.currentGame
         checkNotNull(game)
-        rootService.gameService.handOutCards()
-        for (i in 0..20) {
+        for (i in 0..19) {
             game.drawPile.draw()
         }
         //the draw pile should have less than three cards by now
@@ -126,6 +150,18 @@ internal class GameServiceTest {
         //the current player has knocked in the previous round,
         //which means the game should end now
         assertTrue(rootService.currentGame == null)
+    }
+
+    /***
+     * test the afterPlayerTurn with invalid game
+     */
+    @Test
+    fun afterPlayerTurn5() {
+        val rootService = RootService()
+        //there are no game available
+        assertFailsWith<IllegalStateException> {
+            rootService.gameService.afterPlayerTurn()
+        }
     }
 
     @Test

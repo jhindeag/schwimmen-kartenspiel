@@ -12,7 +12,7 @@ class GameService(private val rootService: RootService) : AbstractRefreshingServ
     fun handOutCards() {
         val game = rootService.currentGame
         checkNotNull(game)
-        for (i in 0..game.players.size - 1) {
+        for (i in 0 until game.players.size) {
             game.players[i].hand =
                 arrayListOf(
                     game.drawPile.draw(),

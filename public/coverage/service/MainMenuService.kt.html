@@ -20,20 +20,20 @@ import kotlin.system.exitProcess
      */
     fun startGame(p1: String, p2: String, p3: String?, p4: String?) {
         val game: Game?
-<span class="pc bpc" id="L23" title="2 of 4 branches missed.">        if (p4 == null &amp;&amp; p3 != null) {</span>
-<span class="fc" id="L24">            game = Game(</span>
-<span class="fc" id="L25">                listOf(</span>
-<span class="fc" id="L26">                    Player(p1),</span>
-<span class="fc" id="L27">                    Player(p2),</span>
-<span class="fc" id="L28">                    Player(p3)</span>
+<span class="pc bpc" id="L23" title="3 of 4 branches missed.">        if (p4 == null &amp;&amp; p3 != null) {</span>
+<span class="nc" id="L24">            game = Game(</span>
+<span class="nc" id="L25">                listOf(</span>
+<span class="nc" id="L26">                    Player(p1),</span>
+<span class="nc" id="L27">                    Player(p2),</span>
+<span class="nc" id="L28">                    Player(p3)</span>
                 )
             )
-<span class="nc bnc" id="L31" title="All 4 branches missed.">        } else if (p4 != null &amp;&amp; p3 == null) {</span>
-<span class="nc" id="L32">            game = Game(</span>
-<span class="nc" id="L33">                listOf(</span>
-<span class="nc" id="L34">                    Player(p1),</span>
-<span class="nc" id="L35">                    Player(p2),</span>
-<span class="nc" id="L36">                    Player(p4)</span>
+<span class="pc bpc" id="L31" title="2 of 4 branches missed.">        } else if (p4 != null &amp;&amp; p3 == null) {</span>
+<span class="fc" id="L32">            game = Game(</span>
+<span class="fc" id="L33">                listOf(</span>
+<span class="fc" id="L34">                    Player(p1),</span>
+<span class="fc" id="L35">                    Player(p2),</span>
+<span class="fc" id="L36">                    Player(p4)</span>
                 )
             )
 <span class="nc bnc" id="L39" title="All 4 branches missed.">        } else if (p3 != null &amp;&amp; p4 != null) {</span>

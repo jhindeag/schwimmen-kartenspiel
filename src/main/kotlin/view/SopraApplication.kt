@@ -53,6 +53,5 @@ class SopraApplication : BoardGameApplication("Schwimmen"), Refreshable {
             this.showMenuScene(endTurnScene)
         }
     }
-
 }
 

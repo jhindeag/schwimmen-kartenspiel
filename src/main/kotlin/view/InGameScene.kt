@@ -1,6 +1,5 @@
 package view
 
-import entity.Card
 import entity.CardImageLoader
 import entity.Player
 import service.RootService
@@ -9,7 +8,6 @@ import tools.aqua.bgw.components.uicomponents.Button
 import tools.aqua.bgw.components.uicomponents.Label
 import tools.aqua.bgw.core.Alignment
 import tools.aqua.bgw.core.BoardGameScene
-import tools.aqua.bgw.util.BidirectionalMap
 import tools.aqua.bgw.util.Font
 import tools.aqua.bgw.visual.ColorVisual
 import tools.aqua.bgw.visual.ImageVisual
@@ -221,19 +219,24 @@ class InGameScene(private val rootService: RootService) :
             }
             table[i].apply {
                 onMouseClicked = {
-                    readyTable = true
-                    tableToTrade = i
-                    table.forEach {
-                        it.reposition(posY = 200, posX = it.posX)
-                    }
-                    table[i].reposition(posY = 150, posX = table[i].posX)
-                    if (readyToTrade) {
+                    if (!readyTable) {
+                        readyTable = true
+                        tableToTrade = i
+                        table.forEach {
+                            it.reposition(posY = 200, posX = it.posX)
+                        }
+                        table[i].reposition(posY = 150, posX = table[i].posX)
+                        if (readyToTrade) {
+                            readyTable = false
+                            readyHand = false
+                            rootService.actionService.tradeOne(
+                                checkNotNull(game.currentPlayer.hand[handToTrade]),
+                                checkNotNull(game.placedCards[tableToTrade])
+                            )
+                        }
+                    } else {
                         readyTable = false
-                        readyHand = false
-                        rootService.actionService.tradeOne(
-                            checkNotNull(game.currentPlayer.hand[handToTrade]),
-                            checkNotNull(game.placedCards[tableToTrade])
-                        )
+                        table[i].reposition(posY = 200, posX = table[i].posX)
                     }
                 }
             }
@@ -245,6 +248,10 @@ class InGameScene(private val rootService: RootService) :
         val game = rootService.currentGame
         checkNotNull(game)
         val cardImageLoader = CardImageLoader()
+
+        table.forEach {
+            it.reposition(posY = 200, posX = it.posX)
+        }
 
         var temp = player.hand[0]
         checkNotNull(temp)
@@ -285,19 +292,24 @@ class InGameScene(private val rootService: RootService) :
             }
             hand[i].apply {
                 onMouseClicked = {
-                    readyHand = true
-                    handToTrade = i
-                    hand.forEach {
-                        it.reposition(posY = 630, posX = it.posX)
-                    }
-                    hand[i].reposition(posY = 600, posX = hand[i].posX)
-                    if (readyToTrade) {
-                        readyTable = false
+                    if (!readyHand) {
+                        readyHand = true
+                        handToTrade = i
+                        hand.forEach {
+                            it.reposition(posY = 630, posX = it.posX)
+                        }
+                        hand[i].reposition(posY = 600, posX = hand[i].posX)
+                        if (readyToTrade) {
+                            readyTable = false
+                            readyHand = false
+                            rootService.actionService.tradeOne(
+                                checkNotNull(player.hand[handToTrade]),
+                                checkNotNull(game.placedCards[tableToTrade])
+                            )
+                        }
+                    } else {
                         readyHand = false
-                        rootService.actionService.tradeOne(
-                            checkNotNull(player.hand[handToTrade]),
-                            checkNotNull(game.placedCards[tableToTrade])
-                        )
+                        hand[i].reposition(posY = 630, posX = hand[i].posX)
                     }
                 }
             }
