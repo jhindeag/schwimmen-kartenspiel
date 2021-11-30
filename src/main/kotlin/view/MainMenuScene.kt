@@ -34,7 +34,6 @@ class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVis
         }
     }
 
-
     private val player2: TextField = TextField(
         posX = 270,
         posY = 150,
@@ -83,25 +82,21 @@ class MainMenuScene(val rootService: RootService) : MenuScene(500, 500, ColorVis
     ).apply {
         onMouseClicked = {
             rootService.currentGame = null
-            if (player3.text == "") {
-                if (player4.text == "") {
-                    rootService.mainMenuService.startGame(
-                        player1.text.trim(), player2.text.trim(), null, null
-                    )
-                } else {
-                    rootService.mainMenuService.startGame(
-                        player1.text.trim(), player2.text.trim(), null, player4.text.trim()
-                    )
-                }
-            } else if (player4.text == "") {
-                rootService.mainMenuService.startGame(
-                    player1.text.trim(), player2.text.trim(), player3.text.trim(), null
-                )
+            var p3: String?
+            var p4: String?
+            p3 = if (player3.text == "") {
+                null
             } else {
-                rootService.mainMenuService.startGame(
-                    player1.text.trim(), player2.text.trim(), player3.text.trim(), player4.text.trim()
-                )
+                player3.text
             }
+            p4 = if (player4.text == "") {
+                null
+            } else {
+                player4.text
+            }
+            rootService.mainMenuService.startGame(
+                player1.text.trim(), player2.text.trim(), p3, p4
+            )
         }
     }
 

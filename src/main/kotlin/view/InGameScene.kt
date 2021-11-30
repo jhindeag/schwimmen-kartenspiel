@@ -37,6 +37,7 @@ class InGameScene(private val rootService: RootService) :
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
+    private var table = ArrayList<CardView>(3)
     private var table1 = CardView(
         posX = 600,
         posY = 200,
@@ -61,6 +62,7 @@ class InGameScene(private val rootService: RootService) :
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
+    private var hand = ArrayList<CardView>(3)
     private var hand1 = CardView(
         posX = 800,
         posY = 630,
@@ -85,6 +87,14 @@ class InGameScene(private val rootService: RootService) :
         front = ImageVisual(CardImageLoader().blankImage),
         back = ImageVisual(CardImageLoader().backImage)
     )
+    private val cardMap: BidirectionalMap<Card, CardView> = BidirectionalMap()
+    private val readyToTrade: Boolean
+        get() = readyHand && readyTable
+    private var readyHand = false
+    private var handToTrade = -1
+    private var readyTable = false
+    private var tableToTrade = -1
+    val actions = ArrayList<Button>(3)
     private val pass = Button(
         posX = 1500,
         posY = 600,
@@ -100,7 +110,6 @@ class InGameScene(private val rootService: RootService) :
             rootService.actionService.pass()
         }
     }
-    private val cardMap: BidirectionalMap<Card, CardView> = BidirectionalMap()
     private val knock = Button(
         posX = 1500,
         posY = 700,
@@ -140,151 +149,63 @@ class InGameScene(private val rootService: RootService) :
             knock,
             takeAll
         )
+        actions.addAll(listOf(pass, knock, takeAll))
     }
 
     override fun refreshAfterStartGame() {
-        clearComponents()
         val game = rootService.currentGame
         checkNotNull(game)
-        addComponents(
+        removeComponents(
             drawPile,
-            table1,
-            table2,
-            table3,
             pass,
             knock,
             takeAll
         )
-        refreshAfterPlayerStateChange(game.currentPlayer)
+        addComponents(
+            drawPile,
+            pass,
+            knock,
+            takeAll
+        )
     }
 
     override fun refreshAfterPlacedCardsChange() {
-        val game = rootService.currentGame
-        checkNotNull(game)
-        val cardImageLoader = CardImageLoader()
-        initializeCardMap(cardImageLoader)
-
-        var temp = game.placedCards[0]
-        checkNotNull(temp)
-        table1 = cardMap.forward(temp)
-
-        temp = game.placedCards[1]
-        checkNotNull(temp)
-        table2 = cardMap.forward(temp)
-
-        temp = game.placedCards[2]
-        checkNotNull(temp)
-        table3 = cardMap.forward(temp)
-
-        table1.showFront()
-        table1.resize(130 * 1.5, 200 * 1.5)
-        table1.reposition(
-            posX = 600,
-            posY = 200
-        )
-
-        table2.showFront()
-        table2.resize(130 * 1.5, 200 * 1.5)
-        table2.reposition(
-            posX = 900,
-            posY = 200,
-        )
-
-        table3.showFront()
-        table3.resize(130 * 1.5, 200 * 1.5)
-        table3.reposition(
-            posX = 1200,
-            posY = 200,
-        )
-
-        table1.isDraggable = true
-        table2.isDraggable = true
-        table3.isDraggable = true
-
-        table1.dropAcceptor = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                hand1, hand2, hand3 -> true
-                else -> false
-            }
+        initializeTable()
+        table.forEach {
+            removeComponents(it)
+            addComponents(it)
         }
-        table2.dropAcceptor = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                hand1, hand2, hand3 -> true
-                else -> false
-            }
-        }
-        table3.dropAcceptor = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                hand1, hand2, hand3 -> true
-                else -> false
-            }
-        }
-
-        table1.onDragDropped = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                hand1 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[0]),
-                    checkNotNull(game.placedCards[0])
-                )
-                hand2 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[1]),
-                    checkNotNull(game.placedCards[0])
-                )
-                hand3 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[2]),
-                    checkNotNull(game.placedCards[0])
-                )
-            }
-        }
-
-        table2.onDragDropped = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                hand1 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[0]),
-                    checkNotNull(game.placedCards[1])
-                )
-                hand2 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[1]),
-                    checkNotNull(game.placedCards[1])
-                )
-                hand3 -> rootService.actionService.tradeOne(
-                    checkNotNull(game.currentPlayer.hand[2]),
-                    checkNotNull(game.placedCards[1])
-                )
-            }
-        }
-
-        table3.onDragDropped = { dragEvent ->
-            run {
-                when (dragEvent.draggedComponent) {
-                    hand1 -> rootService.actionService.tradeOne(
-                        checkNotNull(game.currentPlayer.hand[0]),
-                        checkNotNull(game.placedCards[2])
-                    )
-                    hand2 -> rootService.actionService.tradeOne(
-                        checkNotNull(game.currentPlayer.hand[1]),
-                        checkNotNull(game.placedCards[2])
-                    )
-                    hand3 -> rootService.actionService.tradeOne(
-                        checkNotNull(game.currentPlayer.hand[2]),
-                        checkNotNull(game.placedCards[2])
-                    )
-                }
-            }
-        }
-        removeComponents(
-            table1,
-            table2,
-            table3
-        )
-        addComponents(
-            table1,
-            table2,
-            table3
-        )
     }
 
     override fun refreshAfterPlayerStateChange(player: Player) {
+        initializeHand(player)
+        currentPlayer.text = "Current player: ${player.name}"
+        removeComponents(currentPlayer)
+        addComponents(currentPlayer)
+        hand.forEach {
+            removeComponents(it)
+            addComponents(it)
+        }
+    }
+
+    override fun refreshAfterEndGame() {
+        clearComponents()
+    }
+
+    private fun initializeCardMap(cardImageLoader: CardImageLoader) {
+        val drawPile = DrawPile()
+        drawPile.remainingCards.peekAll().forEach { card ->
+            val cardView = CardView(
+                height = 200,
+                width = 130,
+                front = ImageVisual(cardImageLoader.frontImageFor(card.cardSuit, card.cardValue)),
+                back = ImageVisual(cardImageLoader.backImage)
+            )
+            cardMap.add(card to cardView)
+        }
+    }
+
+    private fun initializeHand(player: Player) {
         val game = rootService.currentGame
         checkNotNull(game)
         val cardImageLoader = CardImageLoader()
@@ -302,129 +223,114 @@ class InGameScene(private val rootService: RootService) :
         checkNotNull(temp)
         hand3 = cardMap.forward(temp)
 
-        hand1.showFront()
-        hand1.resize(130, 200)
-        hand1.reposition(
-            posX = 800,
-            posY = 630
-        )
+        hand.clear()
+        hand.addAll(listOf(hand1, hand2, hand3))
 
-        hand2.showFront()
-        hand2.resize(130, 200)
-        hand2.reposition(
-            posX = 900,
-            posY = 630,
-        )
-
-        hand3.showFront()
-        hand3.resize(130, 200)
-        hand3.reposition(
-            posX = 1000,
-            posY = 630,
-        )
-
-        hand1.isDraggable = true
-        hand2.isDraggable = true
-        hand3.isDraggable = true
-        currentPlayer.text = "Current player: ${player.name}"
-        hand1.dropAcceptor = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                table1, table2, table3 -> true
-                else -> false
-            }
-        }
-        hand2.dropAcceptor = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                table1, table2, table3 -> true
-                else -> false
-            }
-        }
-        hand3.dropAcceptor = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                table1, table2, table3 -> true
-                else -> false
-            }
-        }
-
-        hand1.onDragDropped = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                table1 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[0]),
-                    checkNotNull(game.placedCards[0])
-                )
-                table2 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[0]),
-                    checkNotNull(game.placedCards[1])
-                )
-                table3 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[0]),
-                    checkNotNull(game.placedCards[2])
-                )
-            }
-        }
-
-        hand2.onDragDropped = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                table1 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[1]),
-                    checkNotNull(game.placedCards[0])
-                )
-                table2 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[1]),
-                    checkNotNull(game.placedCards[1])
-                )
-                table3 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[1]),
-                    checkNotNull(game.placedCards[2])
-                )
-            }
-        }
-
-        hand3.onDragDropped = { dragEvent ->
-            when (dragEvent.draggedComponent) {
-                table1 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[2]),
-                    checkNotNull(game.placedCards[0])
-                )
-                table2 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[2]),
-                    checkNotNull(game.placedCards[1])
-                )
-                table3 -> rootService.actionService.tradeOne(
-                    checkNotNull(player.hand[2]),
-                    checkNotNull(game.placedCards[2])
-                )
-            }
-        }
-
-        removeComponents(
-            hand1,
-            hand2,
-            hand3,
-            currentPlayer
-        )
-        addComponents(
-            hand1,
-            hand2,
-            hand3,
-            currentPlayer
-        )
-    }
-
-    override fun refreshAfterEndGame() {
-        clearComponents()
-    }
-
-    private fun initializeCardMap(cardImageLoader: CardImageLoader) {
-        val drawPile = DrawPile()
-        drawPile.remainingCards.peekAll().forEach { card ->
-            val cardView = CardView(
-                height = 200,
-                width = 130,
-                front = ImageVisual(cardImageLoader.frontImageFor(card.cardSuit, card.cardValue)),
-                back = ImageVisual(cardImageLoader.backImage)
+        for (i in 0..hand.size - 1) {
+            hand[i].showFront()
+            hand[i].resize(130, 200)
+            hand[i].reposition(
+                posX = 800 + 100 * i,
+                posY = 630
             )
-            cardMap.add(card to cardView)
+            hand[i].isDraggable = true
+            hand[i].dropAcceptor = { dragEvent ->
+                when (dragEvent.draggedComponent) {
+                    table1, table2, table3 -> true
+                    else -> false
+                }
+            }
+            hand[i].onDragDropped = { dragEvent ->
+                rootService.actionService.tradeOne(
+                    checkNotNull(
+                        game.currentPlayer.hand[i]
+                    ),
+                    checkNotNull(game.placedCards[table.indexOf(dragEvent.draggedComponent)])
+                )
+            }
+            hand[i].apply {
+                onMouseClicked = {
+                    readyHand = true
+                    handToTrade = i
+                    hand.forEach {
+                        it.reposition(posY = 630, posX = it.posX)
+                    }
+                    hand[i].reposition(posY = 600, posX = hand[i].posX)
+                    if (readyToTrade) {
+                        readyTable = false
+                        readyHand = false
+                        rootService.actionService.tradeOne(
+                            checkNotNull(player.hand[handToTrade]),
+                            checkNotNull(game.placedCards[tableToTrade])
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initializeTable() {
+        val game = rootService.currentGame
+        checkNotNull(game)
+        val cardImageLoader = CardImageLoader()
+        initializeCardMap(cardImageLoader)
+
+        var temp = game.placedCards[0]
+        checkNotNull(temp)
+        table1 = cardMap.forward(temp)
+
+        temp = game.placedCards[1]
+        checkNotNull(temp)
+        table2 = cardMap.forward(temp)
+
+        temp = game.placedCards[2]
+        checkNotNull(temp)
+        table3 = cardMap.forward(temp)
+
+        table.clear()
+        table.addAll(listOf(table1, table2, table3))
+
+        for (i in 0..table.size - 1) {
+            table[i].showFront()
+            table[i].resize(130 * 1.5, 200 * 1.5)
+            table[i].reposition(
+                posX = 600 + 300 * i,
+                posY = 200
+            )
+            table[i].isDraggable = true
+            table[i].dropAcceptor = { dragEvent ->
+                when (dragEvent.draggedComponent) {
+                    hand1, hand2, hand3 -> true
+                    else -> false
+                }
+            }
+            table[i].onDragDropped = { dragEvent ->
+                rootService.actionService.tradeOne(
+                    checkNotNull(
+                        game.currentPlayer.hand[
+                                hand.indexOf(dragEvent.draggedComponent)]
+                    ),
+                    checkNotNull(game.placedCards[i])
+                )
+            }
+            table[i].apply {
+                onMouseClicked = {
+                    readyTable = true
+                    tableToTrade = i
+                    table.forEach {
+                        it.reposition(posY = 200, posX = it.posX)
+                    }
+                    table[i].reposition(posY = 150, posX = table[i].posX)
+                    if (readyToTrade) {
+                        readyTable = false
+                        readyHand = false
+                        rootService.actionService.tradeOne(
+                            checkNotNull(game.currentPlayer.hand[handToTrade]),
+                            checkNotNull(game.placedCards[tableToTrade])
+                        )
+                    }
+                }
+            }
         }
     }
 }

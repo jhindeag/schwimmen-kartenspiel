@@ -9,7 +9,12 @@ class SopraApplication : BoardGameApplication("Schwimmen"), Refreshable {
     private val mainMenuScene = MainMenuScene(rootService)
     private val inGameScene = InGameScene(rootService)
     private val endTurnScene = EndTurnScene(rootService).apply {
-        confirm.onMouseClicked = { hideMenuScene(500) }
+        confirm.onMouseClicked = {
+            hideMenuScene(500)
+            inGameScene.actions.forEach {
+                it.isDisabled = false
+            }
+        }
     }
 
     private val scoreboardScene = ScoreboardScene(rootService).apply {
@@ -30,6 +35,9 @@ class SopraApplication : BoardGameApplication("Schwimmen"), Refreshable {
 
     override fun refreshAfterStartGame() {
         this.hideMenuScene()
+        inGameScene.actions.forEach {
+            it.isDisabled = false
+        }
     }
 
     override fun refreshAfterEndGame() {
@@ -39,6 +47,9 @@ class SopraApplication : BoardGameApplication("Schwimmen"), Refreshable {
 
     override fun refreshAfterPlayerStateChange(player: Player) {
         if (rootService.currentGame != null) {
+            inGameScene.actions.forEach {
+                it.isDisabled = true
+            }
             this.showMenuScene(endTurnScene)
         }
     }

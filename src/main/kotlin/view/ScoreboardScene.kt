@@ -21,7 +21,7 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
     private val player1 = Label(
         posX = 50,
         posY = 150,
-        width = 180,
+        width = 300,
         height = 50,
         text = "",
         font = Font(size = 20),
@@ -31,7 +31,7 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
     private val player2 = Label(
         posX = 50,
         posY = 200,
-        width = 180,
+        width = 300,
         height = 50,
         text = "",
         font = Font(size = 20),
@@ -41,7 +41,7 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
     private val player3 = Label(
         posX = 50,
         posY = 250,
-        width = 180,
+        width = 300,
         height = 50,
         text = "",
         font = Font(size = 20),
@@ -51,7 +51,7 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
     private val player4 = Label(
         posX = 50,
         posY = 300,
-        width = 180,
+        width = 300,
         height = 50,
         text = "",
         font = Font(size = 20),
@@ -110,14 +110,14 @@ class ScoreboardScene(val rootService: RootService) : MenuScene(500, 500), Refre
         } else {
             winnerLabel.text = "$winners are the WINNERS!"
         }
-        player1.text = "${game.players[0]}: ${game.players[0].points}"
-        player2.text = "${game.players[1]}: ${game.players[1].points}"
+        player1.text = "${game.players[0]}: ${game.players[0].points} Points"
+        player2.text = "${game.players[1]}: ${game.players[1].points} Points"
         if (game.players.size == 3) {
-            player3.text = "${game.players[2]}: ${game.players[2].points}"
+            player3.text = "${game.players[2]}: ${game.players[2].points} Points"
         }
         if (game.players.size == 4) {
-            player3.text = "${game.players[2]}: ${game.players[2].points}"
-            player4.text = "${game.players[3]}: ${game.players[3].points}"
+            player3.text = "${game.players[2]}: ${game.players[2].points} Points"
+            player4.text = "${game.players[3]}: ${game.players[3].points} Points"
         }
     }
 }
